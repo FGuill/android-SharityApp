@@ -54,6 +54,7 @@ public class Pro_Paiment_fragment extends Fragment implements Updateable,Pro_Pai
         inflate = inflater.inflate(R.layout.fragment_paiment_pro, container, false);
         ((ProfilProActivity) getActivity()).setConfirmationListener(Pro_Paiment_fragment.this);
 
+
             FragmentManager fm = getChildFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             Pro_PaimentStepOne_fragment fragTwo = new Pro_PaimentStepOne_fragment();

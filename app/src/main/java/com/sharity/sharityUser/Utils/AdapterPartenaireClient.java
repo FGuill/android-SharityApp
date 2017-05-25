@@ -21,13 +21,15 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-
 public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartenaireClient.ViewHolder> {
+     boolean click=false;
+    RelativeLayout  frameCategorie;
     OnItemDonateClickListener listener;
     String fragment;
     private int selectedPos=0;
     // private Context mContext;
     private LayoutInflater mInflater;
+    View  mViewcategorieColapse;
     ArrayList<LocationBusiness> AL_id_text = new ArrayList<LocationBusiness>();
     Context mContext;
     private LocationBusiness shop;
@@ -182,7 +184,16 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(item, bo);
-                    notifyItemChanged(selectedPos);
+
+                    if ((shop.istouch())){
+                        frameCategorie.removeView(mViewcategorieColapse);
+                        shop.setIstouch(false);
+                    }else {
+                        frameCategorie = (RelativeLayout) itemView.findViewById(R.id.frame_expand);
+                        mViewcategorieColapse = mInflater.inflate(R.layout.view_success_donate, frameCategorie, false);
+                        frameCategorie.addView(mViewcategorieColapse);
+                        shop.setIstouch(true);
+                    }
                     selectedPos = item;
                     notifyItemChanged(selectedPos);
                 }

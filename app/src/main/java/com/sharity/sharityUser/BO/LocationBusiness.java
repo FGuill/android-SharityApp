@@ -33,6 +33,8 @@ public class LocationBusiness implements Serializable {
     private String prix;
     private String reduction;
     private String categorie;
+    private boolean istouch;
+
 
     public LocationBusiness() {
 
@@ -46,7 +48,7 @@ public class LocationBusiness implements Serializable {
         this._addresse = addresse;
     }
 
-    public LocationBusiness(double latitude, double longitude, String businessName,String categorie, float distance, byte[] picture, boolean isOffset) {
+    public LocationBusiness(double latitude, double longitude, String businessName,String categorie, float distance, byte[] picture, boolean istouch, boolean isOffset) {
         this._latitude = latitude;
         this._longitude = longitude;
         this._businessName = businessName;
@@ -54,6 +56,7 @@ public class LocationBusiness implements Serializable {
         this.distance=distance;
         this.isoffset=isOffset;
         this.categorie=categorie;
+        this.istouch=istouch;
     }
 
     public LocationBusiness(String categorie,double latitude, double longitude, String businessName, float distance, String description,String prix,String reduction, boolean isOffset) {
@@ -66,7 +69,6 @@ public class LocationBusiness implements Serializable {
         this.prix=prix;
         this.reduction=reduction;
         this.categorie=categorie;
-
     }
 
 
@@ -103,6 +105,14 @@ public class LocationBusiness implements Serializable {
 
     public String getCategorie() {
         return categorie;
+    }
+
+    public boolean istouch() {
+        return istouch;
+    }
+
+    public void setIstouch(boolean istouch) {
+        this.istouch = istouch;
     }
 
     //Promotion getter

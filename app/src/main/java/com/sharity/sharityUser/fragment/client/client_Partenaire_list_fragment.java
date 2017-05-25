@@ -375,7 +375,7 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
 
     public void ShowProgress(){
         frame_progress_data.setVisibility(View.VISIBLE);
-        animation_progress_data.setAnimation("loading.json");
+        animation_progress_data.setAnimation("data2.json");
         animation_progress_data.loop(true);
         animation_progress_data.playAnimation();
     }
@@ -392,7 +392,7 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
         search_layout.setVisibility(View.INVISIBLE);
         frame_nonetwork.setOnClickListener(this);
         active_network.setOnClickListener(this);
-        animation_nonetwork.setAnimation("loading.json");
+        animation_nonetwork.setAnimation("data2.json");
         animation_nonetwork.loop(true);
         animation_nonetwork.playAnimation();
     }

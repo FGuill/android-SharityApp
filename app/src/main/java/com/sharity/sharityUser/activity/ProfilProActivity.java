@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -146,6 +147,8 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.rose)));
+
 
             actionBarDrawerToggle = new ActionBarDrawerToggle(ProfilProActivity.this, drawer_layout,
                     toolbar, R.string.open, R.string.close) {
@@ -159,7 +162,7 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
                 }
             };
             actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.red));
+            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
             drawer_layout.setDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.syncState();
 

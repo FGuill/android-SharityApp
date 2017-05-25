@@ -24,6 +24,9 @@ import com.sharity.sharityUser.fonts.TextViewRobotoThin;
 import com.sharity.sharityUser.fragment.Updateable;
 import com.sharity.sharityUser.fragment.pagerHistoric.PagerFragment;
 
+import org.w3c.dom.Text;
+
+import static com.sharity.sharityUser.R.id.historic_status;
 import static com.sharity.sharityUser.R.id.payment;
 
 
@@ -37,7 +40,13 @@ public class History_container_fragment extends Fragment implements Updateable, 
     ImageView circle_slide1;
     ImageView circle_slide2;
     View inflate;
+    private TextView  historic_status;
     private TextViewGeoManis payment;
+
+    private TextView generated_sharepoint;
+    private TextView stock_sharepoint;
+    private TextView solde_euros;
+
     public static History_container_fragment newInstance() {
         History_container_fragment myFragment = new History_container_fragment();
         Bundle args = new Bundle();
@@ -52,6 +61,13 @@ public class History_container_fragment extends Fragment implements Updateable, 
         if (getActivity() instanceof ProfilProActivity) {
             inflate = inflater.inflate(R.layout.fragment_history_container_pro, container, false);
             buttonmap = (Button) inflate.findViewById(R.id.buttonmap);
+            //Top Red View
+            generated_sharepoint=(TextView)inflate.findViewById(R.id.generated_sharepoint);
+            stock_sharepoint=(TextView)inflate.findViewById(R.id.stock_sharepoint);
+            solde_euros=(TextView)inflate.findViewById(R.id.solde_euros);
+
+            historic_status=(TextView)inflate.findViewById(R.id.historic_status);
+            historic_status.setText("Historique des paiements");
             buttonmap.setOnClickListener(this);
         } else {
             ((ProfilActivity) getActivity()).setHistoricListener(History_container_fragment.this);
@@ -81,9 +97,15 @@ public class History_container_fragment extends Fragment implements Updateable, 
         if (i == 0) {
             circle_slide1.setImageResource(R.drawable.circles_slide_on);
             circle_slide2.setImageResource(R.drawable.circles_slide_off);
+            if (historic_status!=null){
+                historic_status.setText("Historique des paiements");
+            }
         } else {
             circle_slide1.setImageResource(R.drawable.circles_slide_off);
             circle_slide2.setImageResource(R.drawable.circles_slide_on);
+            if (historic_status!=null){
+                historic_status.setText("Historique des dons");
+            }
         }
     }
 

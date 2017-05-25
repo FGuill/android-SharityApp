@@ -22,10 +22,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="15.5sp"
+            android:textSize="14sp"
             android:id="@+id/payment"
             android:text="payment from"
-            android:textColor="@color/black"
+            android:textColor="@color/blue"
            />
 
 
@@ -34,10 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/payment"
             android:id="@+id/date"
-            android:textSize="12.5sp"
+            android:textSize="11.5sp"
             android:text="date"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/blue"
             android:layout_alignLeft="@+id/payment"
             android:layout_alignStart="@+id/payment" />
 
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/price"
-            android:textSize="15.5sp"
+            android:textSize="14.5sp"
             android:textColor="@color/black"
             app:GeomanisRegular="geomanistregular.ttf"
             android:textStyle="bold"

@@ -22,6 +22,7 @@ import com.parse.ParseQuery;
 import com.sharity.sharityUser.BO.History;
 import com.sharity.sharityUser.R;
 import com.sharity.sharityUser.Utils.AdapterHistory;
+import com.sharity.sharityUser.Utils.AdapterProHistory;
 import com.sharity.sharityUser.Utils.Utils;
 import com.sharity.sharityUser.activity.MapActivity;
 import com.sharity.sharityUser.activity.ProfilActivity;
@@ -56,7 +57,7 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
     ArrayList<History> payment_value=new ArrayList<>();
     ListView listView;
     private String indice;
-    private AdapterHistory customAdapter;
+    private AdapterProHistory customAdapter;
 
     View inflate;
         public static Pro_History_fragment newInstance(String indice) {
@@ -77,7 +78,7 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
 
             indice= getArguments().getString("indice");
             payment_value.clear();
-            customAdapter = new AdapterHistory(getActivity(), payment_value);
+            customAdapter = new AdapterProHistory(getActivity(), payment_value);
             listView .setAdapter(customAdapter);
             if (Utils.isConnected(getContext())){
                 get_client_Historic();
@@ -99,13 +100,6 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
                 public void done(List<ParseObject> commentList, ParseException e) {
                     if (commentList!=null){
                         Log.d("history","passed");
-                        if (indice.equals("payements")){
-                            payment_value.add(new History("", "", "", "",0));
-                        }
-                        else {
-                            payment_value.add(0,new History("", "", "", "",2));
-                        }
-
                         ParseObject sale = ParseObject.create("_User");
                         for (ParseObject object : commentList){
 

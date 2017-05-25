@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="TITLE"
                 android:textSize="@dimen/profil_fragment_title"
-                android:textColor="#4f4f4f"
+                android:textColor="#FFFFFF"
                 android:layout_gravity="center"
                 android:id="@+id/toolbar_title" />
 

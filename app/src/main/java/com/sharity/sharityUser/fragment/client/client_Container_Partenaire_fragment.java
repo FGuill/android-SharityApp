@@ -374,7 +374,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                                 imageByte = null;
                                 e1.printStackTrace();
                             }
-                            list_shop.add(new LocationBusiness(queryLatitude, queryLongitude, business_name,categorie, distance, imageByte, false));
+                            list_shop.add(new LocationBusiness(queryLatitude, queryLongitude, business_name,categorie, distance, imageByte,false, false));
                         }//Place current location marker
                         list_shop_filtered.addAll(list_shop);
                         //Create offset with last business
@@ -386,7 +386,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                             String categorie = ((LocationBusiness) business).getCategorie();
                             float mdistance = ((LocationBusiness) business).getDistance();
                             byte[] pic = ((LocationBusiness) business).getPicture();
-                            list_shop.add(new LocationBusiness(lat, lon, mbusiness,categorie, mdistance, pic, true));
+                            list_shop.add(new LocationBusiness(lat, lon, mbusiness,categorie, mdistance, pic,false, true));
                         }
                         dataCallBack.onSuccess();
                     }

@@ -9,6 +9,8 @@
     <item name="transparent" type="color">#FFFFFFFF</item>
     <item name="grey" type="color">#cacaca</item>
 
+    <item name="rose" type="color">#fc8292</item>
+
 
     <item name="green" type="color">#75c33c</item>
     <item name="red" type="color">#ff6871</item>

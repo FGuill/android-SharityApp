@@ -30,13 +30,5 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:text="Envoyer un rapport sur l'adresse mail"
-       android:gravity="center"
-       android:textColor="@color/red"
-       android:layout_weight="0.15"/>
-
 
 </LinearLayout>
