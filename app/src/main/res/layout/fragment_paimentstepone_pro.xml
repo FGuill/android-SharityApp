@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3">
+        android:layout_weight="0.30">
 
         <TextView
             android:layout_width="match_parent"
@@ -36,11 +36,12 @@
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:layout_marginBottom="7dp"
+        android:scrollbars="vertical"
         android:stretchMode="columnWidth"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="2.4"
+        android:layout_weight="2.3"
         android:id="@+id/grid"
         />
 
@@ -48,37 +49,31 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_gravity="center"
-            android:layout_weight="0.1"
-            android:id="@+id/barre"
-            android:weightSum="4">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="2.5"
-                android:background="@color/red">
-            </View>
-        </LinearLayout>
+        android:layout_weight="0.25"
+        android:gravity="center_horizontal|center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="PAIEMENT CLASSIQUE"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:id="@+id/paiment_classique"
-            android:layout_marginTop="8dp"
-            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal"
             android:layout_below="@+id/barre"
+            android:background="@drawable/border_backgroundgreen_button"
             android:layout_alignLeft="@+id/barre"
             android:layout_alignRight="@+id/barre"/>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:gravity="center_horizontal|center_vertical">
+    </RelativeLayout>
+
 
 </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

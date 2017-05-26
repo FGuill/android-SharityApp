@@ -10,17 +10,12 @@
     tools:context="testappparse.guilla.com.testappparse.testappparse.guilla.com.sharity.MainActivity">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_above="@+id/linear_slide">
+
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:id="@+id/ListView"
             android:layout_above="@+id/linear_slide"
             android:layout_alignParentTop="true"
@@ -28,7 +23,6 @@
             >
         </ListView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

@@ -91,7 +91,7 @@ public class SampleAdapter extends FragmentPagerAdapter {
     }
 
     if (m2stFragment != null) {
-      // m2ndFragment.doSomeWorkToo();
+       m2stFragment.onRefresh();
     }
   }
 }

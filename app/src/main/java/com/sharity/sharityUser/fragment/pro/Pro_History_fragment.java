@@ -42,6 +42,7 @@ import static com.sharity.sharityUser.R.id.prix;
 import static com.sharity.sharityUser.R.id.user;
 import static com.sharity.sharityUser.R.id.username;
 import static com.sharity.sharityUser.activity.ProfilProActivity.db;
+import static com.sharity.sharityUser.fragment.pro.History_container_fragment.Historic_swipeContainer;
 import static okhttp3.Protocol.get;
 
 
@@ -53,7 +54,6 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
     ParseObject obj= null;
     String customer="";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private SwipeRefreshLayout swipeContainer;
     ArrayList<History> payment_value=new ArrayList<>();
     ListView listView;
     private String indice;
@@ -73,8 +73,6 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
                              Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_history_pro, container, false);
         listView=(ListView)inflate.findViewById(R.id.ListView);
-        swipeContainer = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeContainer);
-        swipeContainer.setOnRefreshListener(this);
 
             indice= getArguments().getString("indice");
             payment_value.clear();
@@ -158,7 +156,7 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
                         }
 
                         customAdapter.notifyDataSetChanged();
-                        swipeContainer.setRefreshing(false);
+                        Historic_swipeContainer.setRefreshing(false);
 
                         // payment_value.add(new History("", "", "", "",3));
                     }
@@ -178,8 +176,8 @@ public class Pro_History_fragment extends Fragment implements Updateable, SwipeR
 
     @Override
     public void onRefresh() {
+        Historic_swipeContainer.setRefreshing(true);
         if (Utils.isConnected(getContext())){
-            swipeContainer.setRefreshing(true);
             payment_value.clear();
             customAdapter.notifyDataSetChanged();
             get_client_Historic();

@@ -23,15 +23,14 @@
         android:id="@+id/grid_text"
         android:layout_alignLeft="@+id/grid_image"
         android:layout_alignRight="@+id/grid_image"
-        android:layout_below="@+id/grid_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:textSize="14.5sp"
         android:maxLines="1"
         android:textColor="@color/blue"
         android:gravity="center"
-        tools:text="toto">
+        tools:text="toto"
+        android:layout_below="@+id/grid_image">
     </TextView>
 
 </RelativeLayout>
