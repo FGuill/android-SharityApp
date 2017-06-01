@@ -8,6 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -69,6 +72,7 @@ import static com.facebook.login.widget.ProfilePictureView.TAG;
 import static com.sharity.sharityUser.Application.getContext;
 import static com.sharity.sharityUser.Application.parseLiveQueryClient;
 import static com.sharity.sharityUser.Application.subscriptionHandling;
+import static com.sharity.sharityUser.R.id.coordinatorLayout;
 import static com.sharity.sharityUser.R.id.price;
 import static com.sharity.sharityUser.R.id.top;
 import static com.sharity.sharityUser.R.id.user;
@@ -98,7 +102,6 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
     private Dialog_TPE_Businness dialog;
     private ParseObject tpeObject = null;
     private ImageView modifyTPE;
-
     public static Pro_Paiment_StepTwo_fragment newInstance(UserLocation userLocation) {
         Pro_Paiment_StepTwo_fragment myFragment = new Pro_Paiment_StepTwo_fragment();
         Bundle args = new Bundle();
@@ -214,7 +217,7 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
         int amount = Integer.parseInt(price) * 100;
         Number amount_cents = amount;
 
-        final ParseObject object = new ParseObject("Transaction");
+        final ParseObject object = ParseObject.create("Transaction");
         object.put("business", ParseObject.createWithoutData("Business", db.getBusinessId()));
         object.put("customer", ParseObject.createWithoutData("_User", user.getId()));
         object.put("sender_name", user.getUsername());
@@ -254,7 +257,7 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    PopupStatePaimement(true);
+                    ((Pro_Paiment_fragment)getParentFragment()).PopupStatePaimement(true);
                     ParseRelation<ParseObject> relation = object.getRelation("tpes");
                     relation.add(tpeObject);
                     object.put("needsProcessing", true);
@@ -262,17 +265,17 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
 
                     BusinessTransaction transaction = new BusinessTransaction(transactionId, "false", String.valueOf(amount_cents), client.getUsername(), "Payment");
                     db.addBusinessTransaction(transaction);
-                    UpdateBusiness();
+                 //   UpdateBusiness();
                     getActivity().onBackPressed();
                 } else {
-                    PopupStatePaimement(false);
+                    ((Pro_Paiment_fragment)getParentFragment()).PopupStatePaimement(false);
                 }
             }
         });
     }
 
     //Get All transaction for self business to count Generated_sharepoints
-    private void UpdateBusiness() {
+   /* private void UpdateBusiness() {
         try {
             ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Business");
             innerQuery.whereEqualTo("objectId", db.getBusinessId());
@@ -296,11 +299,11 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
         } catch (NullPointerException f) {
 
         }
-    }
+    }*/
 
 
     //Update Business value : sharepoint_generated
-    public void UpdateBusiness_sharepoint(String objectId, final int sharepoints) {
+   /* public void UpdateBusiness_sharepoint(String objectId, final int sharepoints) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Business");
         query.getInBackground(objectId, new GetCallback<ParseObject>() {
             public void done(ParseObject gameScore, ParseException e) {
@@ -324,7 +327,7 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
             }
         });
     }
-
+*/
     private void DoPaiment() {
 
     }
@@ -481,23 +484,4 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
         });
     }
 
-    private void PopupStatePaimement(boolean success){
-        String message;
-        if (success){
-            message=getResources().getString(R.string.paiement_send);
-        }else {
-            message=getResources().getString(R.string.paiement_refused);
-        }
-        Utils.showDialogPaiement(getActivity(),message,success, true, new Utils.Click() {
-            @Override
-            public void Ok() {
-
-            }
-
-            @Override
-            public void Cancel() {
-
-            }
-        });
-    }
 }

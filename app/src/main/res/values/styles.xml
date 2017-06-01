@@ -70,4 +70,8 @@
     <style name="toolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlNormal">@color/white</item>
     </style>
+
+    <style name="AppTheme.RoundedCornerMaterialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/dashboard_button</item>
+    </style>
 </resources>

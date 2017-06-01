@@ -98,14 +98,21 @@
                 android:gravity="center_horizontal"
                 >
 
+
                 <Button
                     android:layout_width="wrap_content"
+                    style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/red"
+                    android:text="Allouer"
                     android:id="@+id/allouer"
-                    android:background="@drawable/border_button_search"
+                    android:elevation="1dp"
+                    android:shadowDx="3"
+                    android:shadowDy="3"
+                    android:shadowRadius="2"
                     android:textAllCaps="false"
-                    android:text="allouer"/>
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense_value" />
+
 
             </RelativeLayout>
 

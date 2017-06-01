@@ -12,11 +12,13 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sharity.sharityUser.BO.UserLocation;
 import com.sharity.sharityUser.R;
 import com.sharity.sharityUser.Utils.Utils;
+import com.sharity.sharityUser.activity.PaimementActivity;
 import com.sharity.sharityUser.fragment.Updateable;
 
 import static com.sharity.sharityUser.R.id.montant_SP;
@@ -59,6 +61,8 @@ public class Pro_Paiment_Confirmation_fragment extends Fragment implements Updat
         montant_SP=(TextView)inflate.findViewById(R.id.montant_SP);
         ticket=(TextView)inflate.findViewById(R.id.ticket);
         state=(TextView)inflate.findViewById(R.id.state);
+        LinearLayout background=(LinearLayout)inflate.findViewById(R.id.layoutover);
+
 
         client_name=getArguments().getString("client_name");
         mMontant_recue=getArguments().getString("montant_recue");
@@ -78,6 +82,16 @@ public class Pro_Paiment_Confirmation_fragment extends Fragment implements Updat
             montant_recue.setVisibility(View.INVISIBLE);
         }
 
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getActivity() instanceof PaimementActivity){
+                    getActivity().finish();
+                }else {
+                    getActivity().onBackPressed();
+                }
+            }
+        });
         return inflate;
     }
 

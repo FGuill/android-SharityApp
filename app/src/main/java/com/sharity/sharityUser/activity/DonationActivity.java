@@ -74,7 +74,6 @@ public void onCreate( Bundle savedInstanceState) {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container,  Donation_container_fragment.newInstance(source), "Donation_container_fragment")
-                .addToBackStack(null)
                 .commit();
         }
     }

@@ -70,6 +70,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_BISTRANSCLIENTNAME= "transactionClient";
 
 
+    private static final String ClientTransaction = "ClientTransaction";
+
+
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -88,6 +91,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_TABLE_BusinessTransactionPayment = "CREATE TABLE " + BusinessTransaction + "("+ KEY_BISTRANSOBJECTID +" TEXT," + KEY_BISTRANSAPPROVED +" TEXT," + KEY_BISTRANSAMOUNT +" TEXT,"+ KEY_BISTRANSCLIENTNAME +" TEXT,"+ KEY_BISTRANSTYPE + " TEXT);";
         db.execSQL(CREATE_TABLE_BusinessTransactionPayment);
 
+        String CREATE_TABLE_ClientTransactionPayment = "CREATE TABLE " + ClientTransaction + "("+ KEY_BISTRANSOBJECTID +" TEXT," + KEY_BISTRANSAPPROVED +" TEXT," + KEY_BISTRANSAMOUNT +" TEXT,"+ KEY_BISTRANSCLIENTNAME +" TEXT,"+ KEY_BISTRANSTYPE + " TEXT);";
+        db.execSQL(CREATE_TABLE_ClientTransactionPayment);
+
     }
 
 
@@ -98,6 +104,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + User);
         db.execSQL("DROP TABLE IF EXISTS " + Business);
         db.execSQL("DROP TABLE IF EXISTS " + BusinessTransaction);
+        db.execSQL("DROP TABLE IF EXISTS " + ClientTransaction);
+
         onCreate(db);
     }
 
@@ -455,6 +463,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return cnt;
     }
 
+
+    /**
+     * Client TRANSACTION PAIMENT
+     *
+     * */
+
+    public void addClientTransaction(BusinessTransaction user) throws SQLiteException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_BISTRANSOBJECTID, user.getTransactionId());
+        cv.put(KEY_BISTRANSAPPROVED, user.isApproved());
+        cv.put(KEY_BISTRANSAMOUNT,user.getAmount());
+        cv.put(KEY_BISTRANSCLIENTNAME,user.getClientName());
+        cv.put(KEY_BISTRANSTYPE,user.getType());
+        db.insert(BusinessTransaction, null, cv);
+        db.close(); // Closing database connection
+    }
 
 
     /**

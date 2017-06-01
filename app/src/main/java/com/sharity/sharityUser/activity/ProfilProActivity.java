@@ -391,7 +391,6 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
                 }
             }else if (position==1){
                 toolbarTitle.setText("PAIMENT");
-
                 final Pro_Paiment_fragment pro_paiment_fragment=(Pro_Paiment_fragment)mViewPagerAdapter.getRegisteredFragment(position);
                 if (pro_paiment_fragment!=null){
                     if (pro_paiment_fragment.isAdded()){

@@ -61,6 +61,7 @@ import com.sharity.sharityUser.BO.BusinessTransaction;
 import com.sharity.sharityUser.BO.CISSTransaction;
 import com.sharity.sharityUser.BO.Drawer;
 import com.sharity.sharityUser.BO.History;
+import com.sharity.sharityUser.BO.Transaction;
 import com.sharity.sharityUser.BO.User;
 import com.sharity.sharityUser.LocalDatabase.DatabaseHandler;
 import com.sharity.sharityUser.R;
@@ -144,7 +145,8 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     int inital_height_linear_fragment=0;
     int inital_height_linearsub_bottombar=0;
     int inital_height_LinearBar=0;
-
+    String transaction;
+    int countLiveQuery=0;
 
 
 
@@ -204,7 +206,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             * Get local database to display nav drawer including Profil picture etc
             **/
             DatabaseHandler db = new DatabaseHandler(ProfilActivity.this);
-                String objectId = getUserObjectId(ProfilActivity.this);
+                final String objectId = getUserObjectId(ProfilActivity.this);
                 User user = db.getUser(objectId);
                 byte[] image = user.getPictureprofil();
                 Bitmap PictureProfile = BitmapFactory.decodeByteArray(image, 0, image.length);
@@ -285,27 +287,40 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             * if a payment transaction is approved, it inform the user
             * */
 
-            final ParseQuery<CISSTransaction> parseQuery = ParseQuery.getQuery(CISSTransaction.class);
+            SubscriptionHandling<Transaction> subscriptionHandling;
+            final ParseQuery<Transaction> parseQuery = ParseQuery.getQuery(Transaction.class);
             subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
             subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
-                    SubscriptionHandling.HandleEventCallback<CISSTransaction>() {
+                    SubscriptionHandling.HandleEventCallback<Transaction>() {
                         @Override
-                        public void onEvent(ParseQuery<CISSTransaction> query, CISSTransaction object) {
-                            if (object.getBoolean("processed") == true) {
-                                if (object.getString("customer").equalsIgnoreCase(parseUser.getObjectId())) {
-                                        boolean isApproved= object.getBoolean("approved");
-                                    Intent intent = new Intent("custom-event-name");
+                        public void onEvent(ParseQuery<Transaction> query, Transaction object) {
+                            if (object.getBoolean("approved") == true) {
+                                transaction= object.getString("objectId");
+                                ParseObject sale = ParseObject.create("_User");
+                            try {
+                                sale = object.getParseObject("customer").fetchIfNeeded();
+
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            String userid=sale.getObjectId();
+                                if (userid.equalsIgnoreCase(parseUser.getObjectId())) {
+                                    countLiveQuery++;
+                                    boolean isApproved = object.getBoolean("approved");
+                                    String BusinessNAme = object.getString("recipient_name");
+                                    int amount = object.getInt("amount");
+
+                                 /*   Intent intent = new Intent("custom-event-name");
                                     intent.putExtra("approved", isApproved);
                                     intent.putExtra("sharepoints", "");
                                     intent.putExtra("business", "");
-                                    LocalBroadcastManager.getInstance(ProfilActivity.this).sendBroadcast(intent);
-                                    final int amount = object.getInt("amount");
-
-                                    final String text;
-                                    if (isApproved){
-                                        text="Votre paiment d'un montant de " + amount / 100 + "€ à bien été validé";
-                                    }else {
-                                        text="Votre paiment d'un montant de " + amount / 100 + "€ à été refusé";
+                                    LocalBroadcastManager.getInstance(ProfilActivity.this).sendBroadcast(intent);*/
+                                        final String text;
+                                    if (isApproved) {
+                                        text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à bien été validé";
+                                    } else {
+                                        text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à été refusé";
 
                                     }
                                     if (!ProfilActivity.this.isFinishing()) {
@@ -470,6 +485,19 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
                 if (result.equals("success")){
+                    final client_Profil_fragment clientProfilFragment=(client_Profil_fragment)mViewPagerAdapter.getRegisteredFragment(1);
+                    if (clientProfilFragment!=null) {
+                        if (clientProfilFragment.isAdded()) {
+                            //Permit to call the update function in fragment to reanimate circleprogress
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    clientProfilFragment.update();
+                                }
+                            }, 400);
+                        }
+                    }
+
                     PopupStateDonation(true);
                 }
             }
@@ -732,9 +760,9 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     private void PopupStateDonation(boolean success){
         String message;
         if (success){
-            message=getResources().getString(R.string.paiement_send);
+            message=getResources().getString(R.string.dons_send);
         }else {
-            message=getResources().getString(R.string.paiement_refused);
+            message=getResources().getString(R.string.dons_refused);
         }
         Utils.showDialogPaiement(ProfilActivity.this,message,success, true, new Utils.Click() {
             @Override

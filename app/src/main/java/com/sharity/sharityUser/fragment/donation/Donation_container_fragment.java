@@ -3,31 +3,19 @@ package com.sharity.sharityUser.fragment.donation;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,45 +24,15 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sharity.sharityUser.BO.CharityDons;
-import com.sharity.sharityUser.BO.User;
-import com.sharity.sharityUser.BO.UserLocation;
-import com.sharity.sharityUser.LocalDatabase.DatabaseHandler;
 import com.sharity.sharityUser.R;
 import com.sharity.sharityUser.Utils.Utils;
-import com.sharity.sharityUser.activity.MapActivity;
-import com.sharity.sharityUser.activity.ProfilActivity;
-import com.sharity.sharityUser.activity.ProfilProActivity;
 import com.sharity.sharityUser.fonts.TextViewGeoManis;
 import com.sharity.sharityUser.fragment.DashboardView;
-import com.sharity.sharityUser.fragment.Profil_Solde_Callback;
-import com.sharity.sharityUser.fragment.Updateable;
 import com.sharity.sharityUser.fragment.client.client_donation_details_fragment;
 import com.sharity.sharityUser.fragment.client.client_donation_fragment;
-import com.sharity.sharityUser.fragment.pagerHistoric.PagerFragment;
-import com.sharity.sharityUser.fragment.pro.Pro_PaimentStepOne_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Paiment_Confirmation_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Paiment_StepTwo_Classique_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Paiment_StepTwo_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Paiment_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Profil_Ending_Inscription_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Profil_Infos_fragment;
-import com.sharity.sharityUser.fragment.pro.Pro_Profil_fragment;
 
-import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.sharity.sharityUser.R.id.do_donationTV;
-import static com.sharity.sharityUser.R.id.dons_view;
-import static com.sharity.sharityUser.R.id.points;
-import static com.sharity.sharityUser.R.id.recycler_charity;
-import static com.sharity.sharityUser.R.id.sharepoints_moins;
-import static com.sharity.sharityUser.R.id.sharepoints_plus;
-import static com.sharity.sharityUser.R.id.swipeContainer;
-import static com.sharity.sharityUser.R.id.toolbar_title;
 import static com.sharity.sharityUser.activity.DonationActivity.db;
 import static com.sharity.sharityUser.activity.DonationActivity.parseUser;
 
@@ -131,7 +89,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
                              Bundle savedInstanceState) {
 
 
-        inflate = inflater.inflate(R.layout.fragment_container_donation, container, false);
+        inflate = inflater.inflate(R.layout.fragment_donation_container, container, false);
 
         do_donationTV = (TextView) inflate.findViewById(R.id.do_donationTV);
         points = (TextViewGeoManis) inflate.findViewById(R.id.points);
@@ -339,7 +297,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
 
     private void CreateTransaction(final String charityName, String charityId, final String price) {
         final Number num = Integer.parseInt(price);
-        ParseObject object = new ParseObject("Transaction");
+        ParseObject object =  ParseObject.create("Transaction");
         object.put("sender_name", parseUser.getUsername());
         object.put("clientDonator", ParseObject.createWithoutData("_User", parseUser.getObjectId()));
         object.put("recipient_name", charityName);

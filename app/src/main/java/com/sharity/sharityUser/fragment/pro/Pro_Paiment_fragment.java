@@ -4,6 +4,8 @@ package com.sharity.sharityUser.fragment.pro;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +28,7 @@ import com.sharity.sharityUser.fragment.DashboardView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.internal.Util;
 
+import static com.sharity.sharityUser.R.id.coordinatorLayout;
 import static com.sharity.sharityUser.fragment.pro.History_container_fragment.Historic_swipeContainer;
 
 
@@ -37,6 +40,7 @@ public class Pro_Paiment_fragment extends Fragment implements Updateable,Pro_Pai
     private Pro_PaimentStepOne_fragment.OnChildPaymentSelection onSelection;
     private DashboardView dashboardClientView;
     private SwipeRefreshLayout swipeContainer;
+    private  CoordinatorLayout coordinatorLayout;
 
     public static Pro_Paiment_fragment newInstance(String source) {
         Pro_Paiment_fragment myFragment = new Pro_Paiment_fragment();
@@ -54,6 +58,8 @@ public class Pro_Paiment_fragment extends Fragment implements Updateable,Pro_Pai
                              Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_paiment_pro, container, false);
         swipeContainer = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeContainer);
+        coordinatorLayout=(CoordinatorLayout)inflate.findViewById(R.id.coordinatorLayout);
+
         swipeContainer.setOnRefreshListener(this);
         dashboardClientView = (DashboardView) inflate.findViewById(R.id.dashboardview);
         dashboardClientView.setDashBoardClickListener(this);
@@ -97,7 +103,7 @@ public class Pro_Paiment_fragment extends Fragment implements Updateable,Pro_Pai
         Pro_Paiment_StepTwo_fragment fragmentB = Pro_Paiment_StepTwo_fragment.newInstance(user);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Utils.AnimationFadeFragment(getActivity(),fm,R.id.Fragment_container,fragmentB,"Pro_Paiment_StepTwo_fragment", Fade.IN,false);
+            Utils.AnimationFadeFragment(getActivity(),fm,R.id.Fragment_container,fragmentB,"Pro_Paiment_StepTwo_fragment", Fade.IN,true);
         }else {
             Utils.replaceFragmentWithAnimationVertical(R.id.Fragment_container,Pro_Paiment_StepTwo_fragment.newInstance(user),fm,"Pro_Paiment_StepTwo_fragment",true);
         }
@@ -222,5 +228,38 @@ public class Pro_Paiment_fragment extends Fragment implements Updateable,Pro_Pai
                 }
             });
         }
+    }
+
+
+    public void PopupStatePaimement(boolean success){
+        String message;
+        if (success){
+            message=getResources().getString(R.string.paiement_send);
+        }else {
+            message=getResources().getString(R.string.paiement_refused);
+        }
+
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setDuration(5000)
+                .setActionTextColor(getResources().getColor(R.color.white))
+                .show();
+
+      /*  Utils.showDialogPaiement(getActivity(),message,success, true, new Utils.Click() {
+            @Override
+            public void Ok() {
+
+            }
+
+            @Override
+            public void Cancel() {
+
+            }
+        });*/
     }
 }

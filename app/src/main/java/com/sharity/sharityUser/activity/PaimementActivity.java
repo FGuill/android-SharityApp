@@ -38,7 +38,6 @@ public void onCreate( Bundle savedInstanceState) {
         setContentView(R.layout.activity_paiement);
 
     if (savedInstanceState ==null){
-        background=(LinearLayout)findViewById(R.id.background);
 
         Intent intent = getIntent();
         String montant = intent.getStringExtra("montant");
@@ -47,16 +46,8 @@ public void onCreate( Bundle savedInstanceState) {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container,  Pro_Paiment_Confirmation_fragment.newInstance(montant,clientName,approved), "Pro_Paiment_Confirmation_fragment")
-                .addToBackStack(null)
                 .commit();
 
-
-        background.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
     }
 

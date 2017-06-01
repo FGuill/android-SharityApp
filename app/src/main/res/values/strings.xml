@@ -46,9 +46,11 @@
     <string name="gcm_apiKey">AIzaSyDQn1Kz5Kx_XiQZjtNh0sfz9J0Z8FyUlQU</string>
 
 
-    <string name="paiement_send">Paiement validé</string>
-    <string name="paiement_refused">Paiement refusé</string>
+    <string name="paiement_send">Demande de paiement envoyée avec succès.</string>
+    <string name="paiement_refused">Une erreur s\'est produite lors de l\'envoie de la demande de paiement </string>
 
+    <string name="dons_send">Don validé</string>
+    <string name="dons_refused">Don refusé</string>
 
     <string name="allocate">Vous devez d\'abord atteindre 150€ avant de tirer. \n Si vous ne l\'atteigner pas l\'argent sera viré automatiquement tous les 28 du mois</string>
 </resources>

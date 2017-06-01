@@ -28,6 +28,7 @@ import com.parse.SubscriptionHandling;
 import com.parse.interceptors.ParseLogInterceptor;
 import com.sharity.sharityUser.BO.CISSTransaction;
 import com.sharity.sharityUser.BO.TPE;
+import com.sharity.sharityUser.BO.Transaction;
 import com.sharity.sharityUser.ParsePushNotification.MyCustomReceiver;
 
 import org.json.JSONObject;
@@ -69,6 +70,8 @@ public class Application extends android.app.Application {
 
         ParseObject.registerSubclass(CISSTransaction.class);
         ParseObject.registerSubclass(TPE.class);
+        ParseObject.registerSubclass(Transaction.class);
+
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.ParseAppId)) // correspond to APP_ID
