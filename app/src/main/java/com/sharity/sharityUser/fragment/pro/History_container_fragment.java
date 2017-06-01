@@ -86,15 +86,7 @@ public class History_container_fragment extends Fragment implements Profil_Solde
             //   TextSpawnTitle();
          }
 
-        Fragment currentFagment= getFragmentManager().findFragmentById(R.id.Fragment_container);
-        if (currentFagment instanceof PagerFragment ){
-        }else {
-            FragmentManager fm = getChildFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            PagerFragment fragTwo = new PagerFragment();
-            ft.add(R.id.Fragment_container, fragTwo,"PagerFragment");
-            ft.commit();
-        }
+
 
         historic_status = (TextView) inflate.findViewById(R.id.historic_status);
         historic_status.setText("Historique des paiements");
@@ -163,7 +155,7 @@ public class History_container_fragment extends Fragment implements Profil_Solde
     * */
     @Override
     public void TaskOnNotification(String business, String sharepoints) {
-        PagerFragment fragment2 = (PagerFragment) getChildFragmentManager().findFragmentByTag("PagerFragment");
+        PagerFragment fragment2 = (PagerFragment) getChildFragmentManager().findFragmentById(R.id.content);
         fragment2.pager.setAdapter(fragment2.getAdapter());
         fragment2.getAdapter().FragmentOperation();
     }
@@ -193,7 +185,7 @@ public class History_container_fragment extends Fragment implements Profil_Solde
     public void onRefresh() {
         if (Utils.isConnected(getContext())){
          //   getProfil();
-            PagerFragment fragment2 = (PagerFragment) getChildFragmentManager().findFragmentByTag("PagerFragment");
+            PagerFragment fragment2 = (PagerFragment) getChildFragmentManager().findFragmentById(R.id.content);
             fragment2.pager.setAdapter(fragment2.getAdapter());
             fragment2.getAdapter().FragmentOperation();
         }else {
