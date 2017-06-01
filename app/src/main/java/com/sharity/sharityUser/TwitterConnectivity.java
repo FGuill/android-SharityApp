@@ -115,7 +115,10 @@ public class TwitterConnectivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             byte_pictureFB = DbBitmapUtility.getBytes(pictureFB);
-            UserSession=new User(parseUser.getObjectId(),name,email,byte_pictureFB,"");
+            String sharepoints_depense=String.valueOf(parseUser.getInt("sharepoints_depense"));
+            String sharepoints=String.valueOf(parseUser.getInt("sharepoints"));
+
+            UserSession=new User(parseUser.getObjectId(),name,email,byte_pictureFB,"",sharepoints,sharepoints_depense);
             saveUser_ParseServer(id,byte_pictureFB,name,email,isnewUser);
         }
     }

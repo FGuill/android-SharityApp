@@ -39,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -86,9 +87,11 @@ import static com.parse.SubscriptionHandling.Event.UPDATE;
 import static com.sharity.sharityUser.Application.parseLiveQueryClient;
 import static com.sharity.sharityUser.Application.subscriptionHandling;
 import static com.sharity.sharityUser.BO.CISSTransaction.transactionType;
+import static com.sharity.sharityUser.R.id.LinearBar;
 import static com.sharity.sharityUser.R.id.coordinatorLayout;
 import static com.sharity.sharityUser.R.id.date;
 import static com.sharity.sharityUser.R.id.latitude;
+import static com.sharity.sharityUser.R.id.linear_toolbar;
 import static com.sharity.sharityUser.R.id.longitude;
 import static com.sharity.sharityUser.R.id.swipeContainer;
 import static com.sharity.sharityUser.R.id.tab_option;
@@ -121,11 +124,28 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     private AdapterDrawer adapter;
     public OnNotificationUpdateProfil onNotificationUpdateProfil;
     public OnNotificationUpdateHistoric onNotificationUpdateHistoric;
-    MyPagerAdapter mViewPagerAdapter;
+    private MyPagerAdapter mViewPagerAdapter;
     public static LocationUser locationUser=null;
     public static PermissionRuntime permissionRuntime;
     private  CoordinatorLayout coordinatorLayout;
-    public static boolean isShop = true;
+    public static GoogleApiClient mGoogleApiClient;
+
+    private static int user_sharepoints=0;
+    private static int user_sharepoints_depense=0;
+
+    private LinearLayout linear_toolbar;
+    private LinearLayout linear_fragment;
+    private LinearLayout LinearBar;
+    private LinearLayout linearsub_bottombar;
+
+
+
+    int inital_height_linear_toolbar=0;
+    int inital_height_linear_fragment=0;
+    int inital_height_linearsub_bottombar=0;
+    int inital_height_LinearBar=0;
+
+
 
 
     public interface OnNotificationUpdateHistoric {
@@ -169,6 +189,17 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             bottomBar = (BottomBar) findViewById(R.id.bottomBar);
             toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
+            linear_toolbar=(LinearLayout) findViewById(R.id.linear_toolbar);
+            linear_fragment=(LinearLayout) findViewById(R.id.linear_fragment);
+            LinearBar=(LinearLayout) findViewById(R.id.LinearBar);
+            linearsub_bottombar=(LinearLayout) findViewById(R.id.linearsub_bottombar);
+
+            inital_height_linearsub_bottombar=linearsub_bottombar.getHeight();
+            inital_height_linear_toolbar=linear_toolbar.getHeight();
+            inital_height_linear_fragment=linear_fragment.getHeight();
+            inital_height_LinearBar=LinearBar.getHeight();
+
+            Log.d("size",String.valueOf(inital_height_linear_fragment));
             /*
             * Get local database to display nav drawer including Profil picture etc
             **/
@@ -196,7 +227,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             pager.setOffscreenPageLimit(3);
             mViewPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(mViewPagerAdapter);
-            pager.setCurrentItem(2, true);
+            pager.setCurrentItem(1, true);
             pager.setOnPageChangeListener(mPageChangeListener);
             mViewPagerAdapter.notifyDataSetChanged();
             buildTabs();
@@ -216,7 +247,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             };
             drawer_layout.addDrawerListener(actionBarDrawerToggle);
             actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.green));
+            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
             actionBarDrawerToggle.syncState();
 
             //Navigation draw item Click
@@ -320,10 +351,23 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
         @Override
         public void onPageSelected(int position) {
             setIndicator(position);
-            bottomBar.setInActiveTabColor(getResources().getColor(R.color.white));
-            bottomBar.setActiveTabColor(getResources().getColor(R.color.green));
+            bottomBar.setInActiveTabColor(getResources().getColor(R.color.lightergrey));
+            bottomBar.setActiveTabColor(getResources().getColor(R.color.white));
             if (position == 0) {
                 toolbarTitle.setText("HISTORIQUE");
+                final History_container_fragment history_container_fragment=(History_container_fragment)mViewPagerAdapter.getRegisteredFragment(position);
+                if (history_container_fragment!=null){
+                    if (history_container_fragment.isAdded()){
+                        //Permit to call the update function in fragment to reanimate circleprogress
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                history_container_fragment.update();
+
+                            }
+                        }, 400);
+                    }
+                }
             } else if (position == 1) {
                 toolbarTitle.setText("PROFIL");
               final client_Profil_fragment clientProfilFragment=(client_Profil_fragment)mViewPagerAdapter.getRegisteredFragment(position);
@@ -341,9 +385,13 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
                }
             } else if (position == 2) {
                 toolbarTitle.setText("PARTENAIRE");
+
             } else if (position == 3) {
                 toolbarTitle.setText("MISSION");
             }
+
+
+            setDimensionContent(position);
         }
 
         @Override
@@ -386,9 +434,9 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
 
     private void buildTabs() {
         bottomBar.setOnTabSelectListener(this, true);
-        setIndicator(2);
-        bottomBar.setInActiveTabColor(getResources().getColor(R.color.white));
-        bottomBar.setActiveTabColor(getResources().getColor(R.color.green));
+        setIndicator(1);
+        bottomBar.setInActiveTabColor(getResources().getColor(R.color.lightergrey));
+        bottomBar.setActiveTabColor(getResources().getColor(R.color.white));
     }
 
     //Bottom Bar onCLick
@@ -418,6 +466,14 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                if (result.equals("success")){
+                    PopupStateDonation(true);
+                }
+            }
+        }
      //   locationUser.onActivityResult(requestCode,resultCode,data);
     }
 
@@ -518,9 +574,9 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             int item = pager.getCurrentItem();
             if (item!=1){
                 pager.setCurrentItem(1);
-                onNotificationUpdateProfil.TaskOnNotification(business, sharepoints);
+          //      onNotificationUpdateProfil.TaskOnNotification(business, sharepoints);
             }else {
-                onNotificationUpdateProfil.TaskOnNotification(business, sharepoints);
+          //      onNotificationUpdateProfil.TaskOnNotification(business, sharepoints);
             }
         }
     };
@@ -622,6 +678,77 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             pager.clearOnPageChangeListeners();
         }
     }
+
+    private void setDimensionContent(int screenNumber){
+        if (screenNumber==2){
+
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    linear_fragment.getHeight()+linear_toolbar.getHeight()
+
+            );
+            linear_fragment.setLayoutParams(param);
+
+            LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0
+            );
+            linear_toolbar.setLayoutParams(param2);
+
+            LinearLayout.LayoutParams param4 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0,
+                    (float)3
+            );
+            LinearBar.setLayoutParams(param4);
+
+
+        }else if (linear_toolbar.getHeight()==0){
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0,
+                    (float) 2.52
+
+            );
+            linear_fragment.setLayoutParams(param);
+
+            LinearLayout.LayoutParams param3 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0,
+                    (float) 0.28
+
+            );
+            LinearBar.setLayoutParams(param3);
+
+            LinearLayout.LayoutParams param2 = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0,
+                    (float) 0.2
+            );
+            linear_toolbar.setLayoutParams(param2);
+        }
+    }
+
+    private void PopupStateDonation(boolean success){
+        String message;
+        if (success){
+            message=getResources().getString(R.string.paiement_send);
+        }else {
+            message=getResources().getString(R.string.paiement_refused);
+        }
+        Utils.showDialogPaiement(ProfilActivity.this,message,success, true, new Utils.Click() {
+            @Override
+            public void Ok() {
+
+            }
+
+            @Override
+            public void Cancel() {
+
+            }
+        });
+    }
+
 }
 
 

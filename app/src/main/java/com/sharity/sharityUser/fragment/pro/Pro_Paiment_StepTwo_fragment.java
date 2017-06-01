@@ -243,7 +243,7 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
         final Number amount_cents = amount;
         final CISSTransaction object = new CISSTransaction();
         object.put("approved", false);
-        object.put("needsProcessing", true);
+        object.put("needsProcessing", false);
         object.put("amount", amount_cents);
         object.put("transaction", ParseObject.createWithoutData("Transaction", transaction.getObjectId()));
         object.put("transactionId", transactionId);
@@ -254,22 +254,22 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Toast.makeText(getActivity(), "Paiement envoyé", Toast.LENGTH_LONG).show();
-                    Log.d("TPE",tpeObject.getObjectId());
+                    PopupStatePaimement(true);
                     ParseRelation<ParseObject> relation = object.getRelation("tpes");
                     relation.add(tpeObject);
+                    object.put("needsProcessing", true);
                     object.saveInBackground();
 
                     BusinessTransaction transaction = new BusinessTransaction(transactionId, "false", String.valueOf(amount_cents), client.getUsername(), "Payment");
                     db.addBusinessTransaction(transaction);
                     UpdateBusiness();
+                    getActivity().onBackPressed();
                 } else {
-                    d(TAG, "ex" + e.getMessage());
+                    PopupStatePaimement(false);
                 }
             }
         });
     }
-
 
     //Get All transaction for self business to count Generated_sharepoints
     private void UpdateBusiness() {
@@ -477,6 +477,26 @@ public class Pro_Paiment_StepTwo_fragment extends Fragment implements Updateable
                         dialog.dismiss();
                     }
                 }
+            }
+        });
+    }
+
+    private void PopupStatePaimement(boolean success){
+        String message;
+        if (success){
+            message=getResources().getString(R.string.paiement_send);
+        }else {
+            message=getResources().getString(R.string.paiement_refused);
+        }
+        Utils.showDialogPaiement(getActivity(),message,success, true, new Utils.Click() {
+            @Override
+            public void Ok() {
+
+            }
+
+            @Override
+            public void Cancel() {
+
             }
         });
     }

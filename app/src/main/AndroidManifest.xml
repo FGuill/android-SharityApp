@@ -85,6 +85,13 @@
         <activity android:name=".activity.LocationUserActivity">
         </activity>
 
+        <activity android:name=".activity.DonationActivity">
+        </activity>
+
+        <activity android:name=".activity.PaimementActivity">
+        </activity>
+
+
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_id"/>
 

@@ -49,6 +49,7 @@ import static com.sharity.sharityUser.R.id.animation_nonetwork;
 import static com.sharity.sharityUser.R.id.forgot_pass;
 import static com.sharity.sharityUser.R.id.frame_nonetwork;
 import static com.sharity.sharityUser.activity.ProfilActivity.parseUser;
+import static com.sharity.sharityUser.fragment.pro.History_container_fragment.Historic_swipeContainer;
 
 
 /**
@@ -83,8 +84,6 @@ public class client_Historique_fragment extends Fragment implements Updateable, 
         inflate = inflater.inflate(R.layout.locationuserlist, container, false);
 
         listView=(ListView)inflate.findViewById(R.id.ListView);
-        swipeContainer = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeContainer);
-        swipeContainer.setOnRefreshListener(this);
         recyclerscreen= (RelativeLayout)inflate.findViewById(R.id.framebackground);
         frame_nonetwork = (RelativeLayout) inflate.findViewById(R.id.frame_nonetwork);
         active_network = (Button) inflate.findViewById(R.id.active_network);
@@ -136,13 +135,6 @@ public class client_Historique_fragment extends Fragment implements Updateable, 
                         payment_value.clear();
                         Log.d("m1stFragment","get_client_Historic");
 
-                        if (indice.equals("payements")){
-                            payment_value.add(new History("", "", "", "",0));
-                        }
-                        else {
-                            payment_value.add(0,new History("", "", "", "",2));
-                        }
-
                         for (ParseObject object : commentList){
                             String sharepoints;
                             String prix;
@@ -185,7 +177,7 @@ public class client_Historique_fragment extends Fragment implements Updateable, 
                         }
 
                         customAdapter.notifyDataSetChanged();
-                        swipeContainer.setRefreshing(false);
+                        Historic_swipeContainer.setRefreshing(false);
                         // payment_value.add(new History("", "", "", "",3));
                     }
                 }
@@ -201,13 +193,13 @@ public class client_Historique_fragment extends Fragment implements Updateable, 
     public void onRefresh() {
         if (Utils.isConnected(getActivity())){
             Log.d("m1stFragment","onRefresh");
-            swipeContainer.setRefreshing(true);
+            Historic_swipeContainer.setRefreshing(true);
             payment_value.clear();
             customAdapter.notifyDataSetChanged();
             get_client_Historic();
             HideNetworkView();
         }else {
-            swipeContainer.setRefreshing(false);
+            Historic_swipeContainer.setRefreshing(false);
             Toast.makeText(getActivity(),"Veuillez activer votre wifi ou réseau",Toast.LENGTH_LONG).show();
             ShowNetworkView();
         }}

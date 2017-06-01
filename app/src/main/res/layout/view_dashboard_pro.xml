@@ -4,27 +4,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_top_info"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     android:animateLayoutChanges="true"
     android:layout_alignParentBottom="true"
     android:background="@drawable/border_rose_pro"
-    android:weightSum="2.9"
+    android:weightSum="2.7"
     android:orientation="vertical">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.2"
+        >
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
         android:gravity="bottom"
         >
 
-        <TextView
+        <com.sharity.sharityUser.fonts.TextViewOpenSansSB
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            app:OpenSansSB="opensanssemibold.ttf"
             android:gravity="bottom|center_horizontal"
             android:textColor="@color/white"
+            android:textSize="@dimen/Dashboard_title"
             android:text="SOLDE"/>
 
     </RelativeLayout>
@@ -32,7 +42,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.6"
+        android:layout_weight="1.5"
         android:weightSum="3"
         android:layout_margin="5dp">
 
@@ -42,12 +52,12 @@
             android:gravity="bottom|center_horizontal"
             android:weightSum="3"
             android:orientation="vertical"
-            android:layout_weight="0.8">
+            android:layout_weight="1">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.35"
                 >
             </RelativeLayout>
 
@@ -63,28 +73,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense"
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/generated_sharepoint"
                     android:layout_above="@+id/generatedTV"
-                    android:text="480"/>
+                    android:text="0"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="sharepoint \n généré"
+                    android:text="sharepoint \n dépensé"
                     android:textColor="@color/white"
                     android:id="@+id/generatedTV"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense_value"
                     android:gravity="center_vertical|center_horizontal"
                     />
-                </LinearLayout>
+            </LinearLayout>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.65"
                 android:gravity="center_horizontal"
                 >
 
@@ -92,18 +102,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
-                    android:background="@drawable/border_button"
+                    android:id="@+id/allouer"
+                    android:background="@drawable/border_button_search"
                     android:textAllCaps="false"
                     android:text="allouer"/>
 
             </RelativeLayout>
+
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
+            android:layout_weight="1"
             >
 
             <FrameLayout
@@ -116,8 +128,9 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:id="@+id/solde_euros"
+                    android:textSize="@dimen/Dashboard_solde"
                     android:layout_gravity="center_horizontal|center_vertical"
-                android:text="20e"/>
+                    android:text="0"/>
 
 
                 <com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -126,8 +139,8 @@
                     android:layout_centerHorizontal="true"
                     android:id="@+id/circularprogress"
                     app:cpb_background_progressbar_color="#FFE7E7E7"
-                    app:cpb_background_progressbar_width="3dp"
-                    app:cpb_progressbar_color="#FFFFFF"
+                    app:cpb_background_progressbar_width="2dp"
+                    app:cpb_progressbar_color="#edffffff"
                     app:cpb_progressbar_width="7dp"
                     android:layout_gravity="center_horizontal|center_vertical"/>
 
@@ -141,7 +154,8 @@
             android:gravity="bottom|center_horizontal"
             android:weightSum="3"
             android:orientation="vertical"
-            android:layout_weight="0.8">
+            android:layout_weight="1"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -166,7 +180,7 @@
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/stock_sharepoint"
                     android:layout_above="@+id/stockTV"
-                    android:text="480"/>
+                    android:text="0"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -180,43 +194,56 @@
             </LinearLayout>
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.7"
-                android:visibility="invisible"
+                android:layout_weight="0.65"
+                android:visibility="visible"
                 android:gravity="center_horizontal"
                 >
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
-                    android:background="@drawable/border_button"
+                    android:background="@drawable/border_button_search"
                     android:textAllCaps="false"
+                    android:visibility="invisible"
                     android:text="retirer"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.3"
-        >
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/red"
-            android:background="@drawable/border_button"
+            android:id="@+id/retirer"
+            android:background="@drawable/border_button_search"
             android:textAllCaps="false"
             android:text="retirer"/>
 
-    </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:visibility="visible">
+
+    </LinearLayout>
+
 </LinearLayout>

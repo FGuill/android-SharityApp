@@ -26,12 +26,17 @@ public class Business {
     String _longitude;
     String _email;
     String emailveried;
+    String solde;
+    String sharepoint_depense;
+    String sharepoint_stock;
 
     // Empty constructor
 
 
     // constructor
-    public Business(String id,String username, String ower,String officerName,String businessName,String RIB,String Siret,String telephoneNumber, String address, String latitude,String longitude, String email,String emailveried) {
+
+
+    public Business(String id,String username, String ower,String officerName,String businessName,String RIB,String Siret,String telephoneNumber, String address, String latitude,String longitude, String email,String emailveried,String solde,String sharepoint_depense,String sharepoint_stock) {
         this._id = id;
         this._username = username;
         this._ower = ower;
@@ -45,6 +50,10 @@ public class Business {
         this._longitude=longitude;
         this._email = email;
         this.emailveried=emailveried;
+        this.solde=solde; //balance
+        this.sharepoint_depense=sharepoint_depense;
+        this.sharepoint_stock=sharepoint_stock;
+
     }
 
     // constructor
@@ -104,5 +113,18 @@ public class Business {
 
     public String getEmailveried() {
         return emailveried;
+    }
+
+
+    public String getSolde() {
+        return solde;
+    }
+
+    public String getSharepoint_depense() {
+        return sharepoint_depense;
+    }
+
+    public String getSharepoint_stock() {
+        return sharepoint_stock;
     }
 }

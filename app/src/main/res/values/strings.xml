@@ -46,5 +46,9 @@
     <string name="gcm_apiKey">AIzaSyDQn1Kz5Kx_XiQZjtNh0sfz9J0Z8FyUlQU</string>
 
 
+    <string name="paiement_send">Paiement validé</string>
+    <string name="paiement_refused">Paiement refusé</string>
 
+
+    <string name="allocate">Vous devez d\'abord atteindre 150€ avant de tirer. \n Si vous ne l\'atteigner pas l\'argent sera viré automatiquement tous les 28 du mois</string>
 </resources>

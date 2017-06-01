@@ -190,14 +190,14 @@ public class AdapterPartenaireMapClient extends RecyclerView.Adapter<AdapterPart
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView image;
+        ImageView image;
         TextView description, prix,businessname;
         TextView latitude, longitude, reduction;
         RelativeLayout background;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image = (CircleImageView) itemView.findViewById(R.id.imageView);
+            image = (ImageView) itemView.findViewById(R.id.imageView);
             description = (TextView) itemView.findViewById(R.id.description);
             businessname = (TextView) itemView.findViewById(R.id.business_name);
             prix = (TextView) itemView.findViewById(R.id.prix);
@@ -209,8 +209,6 @@ public class AdapterPartenaireMapClient extends RecyclerView.Adapter<AdapterPart
 
             background.getLayoutParams().width = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
             background.getLayoutParams().height = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
-
-
         }
 
 

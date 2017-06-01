@@ -55,10 +55,7 @@ public class AdapterHistory extends BaseAdapter {
 
         if (convertView == null) {
             holder = new ViewHolder();
-            if (listViewItemType == 0) {
-                convertView = inflat.inflate(R.layout.row_payment_header_listview, null);
-
-            } else if(listViewItemType == 1){
+              if(listViewItemType == 1){
                 convertView = inflat.inflate(R.layout.row_payment_body_listview, null);
                 holder.payment = (TextView) convertView
                         .findViewById(R.id.payment);
@@ -67,10 +64,7 @@ public class AdapterHistory extends BaseAdapter {
                 holder.price_payment=(TextViewGeoManis)convertView.findViewById(R.id.price);
                 holder.approved=(TextView)convertView.findViewById(R.id.approved);
             }
-            if (listViewItemType == 2) {
-                convertView = inflat.inflate(R.layout.row_dons_header_listview, null);
-
-            } else if(listViewItemType == 3){
+             if(listViewItemType == 3){
                 convertView = inflat.inflate(R.layout.row_dons_body_listview, null);
                 holder.dons = (TextView) convertView
                         .findViewById(R.id.dons);
@@ -87,14 +81,12 @@ public class AdapterHistory extends BaseAdapter {
         }
 
         if (it != null) {
-            if (listViewItemType == 0) {
-
-            } else if(listViewItemType == 1) {
+              if(listViewItemType == 1) {
                 if(holder.payment!= null) {
                     if (context instanceof ProfilProActivity){
-                        holder.payment.setText("Paiement de "+it.get_businessname());
+                        holder.payment.setText(it.get_businessname());
                     }else if (context instanceof ProfilActivity){
-                        holder.payment.setText("Payment to "+it.get_businessname());
+                        holder.payment.setText(it.get_businessname());
 
                     }
                 }
@@ -103,6 +95,8 @@ public class AdapterHistory extends BaseAdapter {
                 }
                 if(holder.price_payment!= null) {
                     holder.price_payment.setText(it.get_prix()+"€");
+                    holder.price_payment.setTextColor(context.getResources().getColor(R.color.green));
+
                 }
 
                 if(holder.approved!= null) {
@@ -115,22 +109,22 @@ public class AdapterHistory extends BaseAdapter {
                     }
                 }
             }
-            else if(listViewItemType == 2) {
-            }
-            else if(listViewItemType == 3) {
+
+             if(listViewItemType == 3) {
                 if(holder.dons!= null) {
                     if (context instanceof ProfilProActivity){
-                        holder.dons.setText("Donate to "+it.get_businessname());
+                        holder.dons.setText(it.get_businessname());
                     }else if (context instanceof ProfilActivity){
-                        holder.dons.setText("Donate to "+it.get_businessname());
-
+                        holder.dons.setText(it.get_businessname());
                     }
                 }
                 if(holder.date_dons!= null) {
                     holder.date_dons.setText(it.get_date());
                 }
                 if(holder.price_dons!= null) {
-                    holder.price_dons.setText(it.get_prix()+"€");
+                    holder.price_dons.setText(it.get_prix()+"SP");
+                    holder.price_dons.setTextColor(context.getResources().getColor(R.color.green));
+
                 }
 
                 if(holder.approved!= null) {

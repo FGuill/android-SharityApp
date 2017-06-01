@@ -25,6 +25,7 @@ import com.sharity.sharityUser.activity.ProfilProActivity;
 
 import static com.facebook.login.widget.ProfilePictureView.TAG;
 import static com.sharity.sharityUser.R.id.RIB;
+import static com.sharity.sharityUser.R.id.generated_sharepoint;
 import static com.sharity.sharityUser.R.id.user;
 import static com.sharity.sharityUser.R.id.username;
 import static com.sharity.sharityUser.activity.LoginActivity.db;
@@ -74,9 +75,13 @@ public class LoginProInteractorImpl implements LoginInteractor {
                                             String email = object.get("email").toString();
                                             String emailVerified = String.valueOf(object.getBoolean("emailVerified"));
 
+                                            String solde = String.valueOf(object.getInt("balance"));
+                                            String generated_SP = String.valueOf(object.getInt("generated_sharepoints"));
+                                            String stock_SP = String.valueOf(object.getInt("sharepoints_stock"));
+
                                             double latitude = geoPoint.getLatitude();
                                             double longitude = geoPoint.getLongitude();
-                                            final Business business = new Business(object.getObjectId(), user.getUsername(), owner, officerName, _Businesname, RIB, Siret, telephoneNumber, address, String.valueOf(latitude), String.valueOf(longitude),email, emailVerified);
+                                            final Business business = new Business(object.getObjectId(), user.getUsername(), owner, officerName, _Businesname, RIB, Siret, telephoneNumber, address, String.valueOf(latitude), String.valueOf(longitude),email, emailVerified,solde,generated_SP,stock_SP);
                                             if (db.getBusinessCount() <= 0) {
                                                 db.addProProfil(business);
                                             }else if (db.getBusinessCount()>=1){

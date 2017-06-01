@@ -24,7 +24,6 @@ public class Drawer {
         this.logo=logo;
         this.items=items;
         this.type=type;
-        this.type=type;
     }
 
 
@@ -32,7 +31,6 @@ public class Drawer {
     public Drawer(Bitmap PictureProfile, String items, int type){
         this.PictureProfile=PictureProfile;
         this.items=items;
-        this.type=type;
         this.type=type;
     }
 

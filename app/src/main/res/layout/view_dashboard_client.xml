@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_top_info"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:animateLayoutChanges="true"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/bg_dashboard_client"
+    android:weightSum="2.85"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:gravity="bottom"
+        >
+
+        <com.sharity.sharityUser.fonts.TextViewOpenSansSB
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:OpenSansSB="opensanssemibold.ttf"
+            android:gravity="bottom|center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="@dimen/Dashboard_title"
+            android:text="SHAREPOINTS"
+            android:layout_marginBottom="5dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.7"
+        android:weightSum="6"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center_horizontal"
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:layout_weight="1.75">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                >
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.6"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:layout_marginBottom="4dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense"
+                    android:gravity="bottom|center_horizontal|center_vertical"
+                    android:id="@+id/generated_sharepoint"
+                    android:layout_above="@+id/generatedTV"
+                    android:text="0"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="sharepoint \n dépensé"
+                    android:textColor="@color/white"
+                    android:id="@+id/generatedTV"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense_value"
+                    android:gravity="center_vertical|center_horizontal"
+                    />
+                </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center_horizontal"
+                >
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:id="@+id/solde_euros"
+                    android:textSize="@dimen/Dashboard_solde"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                android:text="0"/>
+
+
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/circularprogress"
+                    app:cpb_background_progressbar_color="#FFE7E7E7"
+                    app:cpb_background_progressbar_width="2dp"
+                    app:cpb_progressbar_color="#edffffff"
+                    app:cpb_progressbar_width="7dp"
+                    android:layout_gravity="center_horizontal|center_vertical"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center_horizontal"
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:layout_weight="1.8"
+            android:visibility="invisible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                >
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:gravity="bottom"
+                android:layout_marginBottom="4dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:gravity="bottom|center_horizontal|center_vertical"
+                    android:id="@+id/stock_sharepoint"
+                    android:layout_above="@+id/stockTV"
+                    android:text="480"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="stock de \n sharepoint"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:id="@+id/stockTV"
+                    android:gravity="center_vertical|center_horizontal"
+                    />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:visibility="invisible"
+                android:gravity="center_horizontal"
+                >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:background="@drawable/border_button"
+                    android:textAllCaps="false"
+                    android:text="retirer"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:visibility="invisible">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/red"
+            android:background="@drawable/border_button"
+            android:textAllCaps="false"
+            android:text="retirer"/>
+
+    </RelativeLayout>
+</LinearLayout>

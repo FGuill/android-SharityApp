@@ -49,13 +49,13 @@
     <style name="DrawerArrowStyleClient" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <!-- Hint color and label color in FALSE state -->
         <item name="spinBars">true</item>
-        <item name="color">@color/green</item>
+        <item name="color">@color/white</item>
     </style>
 
     <style name="DrawerArrowStylePro" parent="@style/Widget.AppCompat.DrawerArrowToggle">
         <!-- Hint color and label color in FALSE state -->
         <item name="spinBars">true</item>
-        <item name="color">@color/red</item>
+        <item name="color">@color/white</item>
     </style>
 
     <style name="MaterialAnimations" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -65,5 +65,9 @@
     <style name="AutocompleteRemoveLine">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
+    </style>
+
+    <style name="toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/white</item>
     </style>
 </resources>

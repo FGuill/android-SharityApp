@@ -40,6 +40,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_IMAGE = "image";
     private static final String KEY_CODE = "code";
 
+    private static final String KEY_SHAREPOINT = "sharepoint";
+    private static final String KEY_SHAREPOINT_DEPENSE = "sharepointdepense";
+    private static final String KEY_SHAREPOINT_STOCK = "sharepointstock";
+    private static final String KEY_SOLDE = "solde";
+
 
 
     private static final String Business = "BusinessTable";
@@ -72,12 +77,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-         String CREATE_TABLE_IMAGE = "CREATE TABLE " + User + "("+KEY_OBJECTID + " TEXT,"+ KEY_USERNAME + " TEXT," + KEY_EMAIL + " TEXT," + KEY_IMAGE + " BLOB,"+ KEY_CODE + " TEXT);";
+         String CREATE_TABLE_IMAGE = "CREATE TABLE " + User + "("+KEY_OBJECTID + " TEXT,"+ KEY_USERNAME + " TEXT," + KEY_EMAIL + " TEXT," + KEY_IMAGE + " BLOB,"+ KEY_CODE + " TEXT," + KEY_SHAREPOINT + " TEXT,"+ KEY_SHAREPOINT_DEPENSE + " TEXT);";
         db.execSQL(CREATE_TABLE_IMAGE);
 
         String CREATE_TABLE_BUSINESS = "CREATE TABLE " + Business + "("+KEY_BISOBJECTID + " TEXT,"+ KEY_BISUSERNAME + " TEXT," + KEY_OWNER +" TEXT,"
                 + KEY_OFFICERNAME +" TEXT," + KEY_BUSINESSNAME +" TEXT," + KEY_RIB +" TEXT,"+ KEY_SIRET +" TEXT,"
-                + KEY_TELEPHONE +" TEXT," + KEY_ADDRESS +" TEXT," + KEY_LATITUDE +" TEXT," + KEY_LONGITUDE +" TEXT,"+ KEY_MAIL +" TEXT,"+ KEY_EMAILVERIFIED + " TEXT);";
+                + KEY_TELEPHONE +" TEXT," + KEY_ADDRESS +" TEXT," + KEY_LATITUDE +" TEXT," + KEY_LONGITUDE +" TEXT,"+ KEY_MAIL +" TEXT,"+ KEY_EMAILVERIFIED + " TEXT,"+ KEY_SOLDE + " TEXT,"+ KEY_SHAREPOINT_DEPENSE + " TEXT,"+ KEY_SHAREPOINT_STOCK + " TEXT);";
         db.execSQL(CREATE_TABLE_BUSINESS);
 
         String CREATE_TABLE_BusinessTransactionPayment = "CREATE TABLE " + BusinessTransaction + "("+ KEY_BISTRANSOBJECTID +" TEXT," + KEY_BISTRANSAPPROVED +" TEXT," + KEY_BISTRANSAMOUNT +" TEXT,"+ KEY_BISTRANSCLIENTNAME +" TEXT,"+ KEY_BISTRANSTYPE + " TEXT);";
@@ -107,6 +112,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(KEY_EMAIL,user.get_email());
         cv.put(KEY_IMAGE, user.getPictureprofil());
         cv.put(KEY_CODE, user.get_code());
+        cv.put(KEY_SHAREPOINT, user.get_sharepoint());
+        cv.put(KEY_SHAREPOINT_DEPENSE, user.get_sharepoint_depense());
         db.insert(User, null, cv);
         db.close(); // Closing database connection
     }
@@ -121,6 +128,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return image;
     }
 
+    public String getUserId() {
+
+        String selectQuery = "SELECT * FROM " + User;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String id = cursor.getString(0);
+        return id;
+    }
+
     public String getUsername() {
 
         String selectQuery = "SELECT * FROM " + User;
@@ -129,6 +146,42 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String image = cursor.getString(1);
         return image;
+    }
+
+    public String getUserSharepoints() {
+
+        String selectQuery = "SELECT * FROM " + User;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String image = cursor.getString(5);
+        return image;
+    }
+
+    public String getUserSharepointsDepense() {
+
+        String selectQuery = "SELECT * FROM " + User;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String image = cursor.getString(6);
+        return image;
+    }
+
+    public int UpdateUserSharepoints(String value, String objectId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SHAREPOINT, value);
+        return db.update(User, cv, KEY_OBJECTID + " = ?",
+                new String[] { String.valueOf(objectId) });
+    }
+
+    public int UpdateUserSharepoints_depense(String value, String objectId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SHAREPOINT_DEPENSE, value);
+        return db.update(User, cv, KEY_OBJECTID + " = ?",
+                new String[] { String.valueOf(objectId) });
     }
 
     public String getCodeUser() {
@@ -144,15 +197,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public com.sharity.sharityUser.BO.User getUser(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
+
         Cursor cursor = db.query(User
                 , new String[] { KEY_OBJECTID,
-                        KEY_USERNAME, KEY_EMAIL,KEY_IMAGE,KEY_CODE}, KEY_OBJECTID + "=?",
+                        KEY_USERNAME, KEY_EMAIL,KEY_IMAGE,KEY_CODE,KEY_SHAREPOINT,KEY_SHAREPOINT_DEPENSE}, KEY_OBJECTID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         com.sharity.sharityUser.BO.User contact = new User(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2),cursor.getBlob(3),cursor.getString(4));
+                cursor.getString(1), cursor.getString(2),cursor.getBlob(3),cursor.getString(4),cursor.getString(5),cursor.getString(6));
         // return contact
         return contact;
     }
@@ -169,7 +223,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_USERNAME, contact.get_name());
         values.put(KEY_IMAGE, contact.getPictureprofil());
         values.put(KEY_CODE, contact.get_code());
-
+        values.put(KEY_SHAREPOINT, contact.get_sharepoint());
+        values.put(KEY_SHAREPOINT_DEPENSE, contact.get_sharepoint_depense());
 
         // updating row
         return db.update(User, values, KEY_OBJECTID + " = ?",
@@ -222,6 +277,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(KEY_LATITUDE,String.valueOf(user.getLatitude()));
         cv.put(KEY_LONGITUDE,String.valueOf(user.get_longitude()));
         cv.put(KEY_EMAILVERIFIED,user.getEmailveried());
+        cv.put(KEY_SOLDE,user.getSolde());
+        cv.put(KEY_SHAREPOINT_DEPENSE,user.getSharepoint_depense());
+        cv.put(KEY_SHAREPOINT_STOCK,user.getSharepoint_stock());
+
+
         db.insert(Business, null, cv);
         db.close(); // Closing database connection
     }
@@ -243,6 +303,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put(KEY_LATITUDE,String.valueOf(user.getLatitude()));
         cv.put(KEY_LONGITUDE,String.valueOf(user.get_longitude()));
         cv.put(KEY_EMAILVERIFIED,user.getEmailveried());
+        cv.put(KEY_SOLDE,user.getSolde());
+        cv.put(KEY_SHAREPOINT_DEPENSE,user.getSharepoint_depense());
+        cv.put(KEY_SHAREPOINT_STOCK,user.getSharepoint_stock());
+
 
         // updating row
         return db.update(Business, cv, KEY_OBJECTID + " = ?",
@@ -256,13 +320,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(Business
                 , new String[] { KEY_BISOBJECTID,
-                        KEY_BISUSERNAME,KEY_OWNER,KEY_OFFICERNAME,KEY_BUSINESSNAME,KEY_RIB,KEY_SIRET,KEY_TELEPHONE,KEY_ADDRESS,KEY_LATITUDE,KEY_LONGITUDE,KEY_MAIL,KEY_EMAILVERIFIED}, KEY_BISOBJECTID + "=?",
+                        KEY_BISUSERNAME,KEY_OWNER,KEY_OFFICERNAME,KEY_BUSINESSNAME,KEY_RIB,KEY_SIRET,KEY_TELEPHONE,KEY_ADDRESS,KEY_LATITUDE,KEY_LONGITUDE,KEY_MAIL,KEY_EMAILVERIFIED,KEY_SOLDE, KEY_SHAREPOINT_DEPENSE, KEY_SHAREPOINT_STOCK}, KEY_BISOBJECTID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
             if (cursor != null)
             cursor.moveToFirst();
 
         Business contact = new Business(cursor.getString(0),
-                cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12));
+                cursor.getString(1), cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6),cursor.getString(7),cursor.getString(8),cursor.getString(9),cursor.getString(10),cursor.getString(11),cursor.getString(12),cursor.getString(13),cursor.getString(14),cursor.getString(15));
         // return contact
         return contact;
     }
@@ -317,6 +381,57 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String objectid = cursor.getString(12);
         return objectid;
+    }
+
+    public String getBusinessSolde() {
+        String selectQuery = "SELECT * FROM " + Business;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String objectid = cursor.getString(13);
+        return objectid;
+    }
+
+    public String getBusiness_SharepointDepense() {
+        String selectQuery = "SELECT * FROM " + Business;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String objectid = cursor.getString(14);
+        return objectid;
+    }
+
+    public String getBusiness_SharepointStock() {
+        String selectQuery = "SELECT * FROM " + Business;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        String objectid = cursor.getString(15);
+        return objectid;
+    }
+
+    public int setBusinessSolde(String value, String objectId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SOLDE, value);
+        return db.update(Business, cv, KEY_BISOBJECTID + " = ?",
+                new String[] { String.valueOf(objectId) });
+    }
+
+    public int setBusiness_StockSP(String value, String objectId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SHAREPOINT_STOCK, value);
+        return db.update(Business, cv, KEY_BISOBJECTID + " = ?",
+                new String[] { String.valueOf(objectId) });
+    }
+
+    public int setBusiness_DepenseSP(String value, String objectId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_SHAREPOINT_DEPENSE, value);
+        return db.update(Business, cv, KEY_BISOBJECTID + " = ?",
+                new String[] { String.valueOf(objectId) });
     }
 
 

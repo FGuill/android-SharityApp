@@ -221,7 +221,8 @@ public class SignUpCharityInteractorImpl implements SignUpProInteractor {
                         public void done(ParseException e) {
                             if (e == null) {
                                 SaveLocationUser(point, object.getObjectId());
-                                final Business business = new Business(object.getObjectId(), user.getUsername(), user.getObjectId(), _OwnerName, _Businesname, _RIB, _Siret, _Phone, _address, String.valueOf(latitude), String.valueOf(longitude), _email, "false");
+                                final String sharepoint="0";
+                                final Business business = new Business(object.getObjectId(), user.getUsername(), user.getObjectId(), _OwnerName, _Businesname, _RIB, _Siret, _Phone, _address, String.valueOf(latitude), String.valueOf(longitude), _email, "false",sharepoint,sharepoint,sharepoint);
                                 if (db.getBusinessCount() >= 1) {
                                     db.deleteAllBusiness();
                                 }

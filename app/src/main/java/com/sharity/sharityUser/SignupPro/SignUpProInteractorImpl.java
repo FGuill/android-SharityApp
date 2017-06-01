@@ -182,14 +182,14 @@ public class SignUpProInteractorImpl implements SignUpProInteractor {
         object.put("location", point);
         object.put("email", _email);
         object.put("emailVerified", false);
-
+        final String sharepoint="0";
         final ParseObject finalObject = object;
         finalObject.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     SaveLocationUser(point, finalObject.getObjectId());
-                    final Business business=new Business(finalObject.getObjectId(),user.getUsername(),user.getObjectId(),_OwnerName,_Businesname,_RIB,_Siret,_Phone,_address,String.valueOf(latitude),String.valueOf(longitude),_email,"false");
+                    final Business business=new Business(finalObject.getObjectId(),user.getUsername(),user.getObjectId(),_OwnerName,_Businesname,_RIB,_Siret,_Phone,_address,String.valueOf(latitude),String.valueOf(longitude),_email,"false",sharepoint,sharepoint,sharepoint);
                     if (db.getBusinessCount()>=1){
                         db.deleteAllBusiness();
                     }

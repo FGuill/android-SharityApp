@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent">
+
+
+    <RelativeLayout
+        android:id="@+id/frame_expand"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_gravity="center"
+                android:weightSum="1">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:background="@color/rose"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetStart="0dp"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="TITLE"
+                            android:textSize="@dimen/profil_fragment_title"
+                            android:textColor="@color/white"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/toolbar_title"
+                            android:visibility="invisible"
+                            android:gravity="center_vertical" />
+                    </RelativeLayout>
+
+
+
+
+                </android.support.v7.widget.Toolbar>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <com.sharity.sharityUser.fragment.DashboardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:Type="Business"
+                        android:id="@+id/dashboardview">
+
+                    </com.sharity.sharityUser.fragment.DashboardView>
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:fillViewport="true"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="3.1"
+                            android:orientation="vertical"
+                            android:weightSum="6"
+                            android:id="@+id/dons_view"
+                            android:visibility="visible"
+                            android:clickable="true">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="0.7">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="url"
+                                    android:gravity="center"
+                                    android:id="@+id/urlwebsite"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.1">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/logo"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:weightSum="1">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="0.5"
+                                    android:text="email"
+                                    android:gravity="center"
+                                    android:id="@+id/email"/>
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="0.5"
+                                    android:gravity="center"
+                                    android:text="addresse"
+                                    android:id="@+id/addresse"/>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="4">
+
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="top|center_horizontal"
+                                    android:text="description"
+                                    android:id="@+id/description"/>
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

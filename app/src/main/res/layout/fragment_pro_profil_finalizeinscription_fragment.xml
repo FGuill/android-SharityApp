@@ -7,12 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    android:weightSum="7">
+    android:weightSum="8">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.4"
+        android:layout_weight="1.5"
         android:orientation="vertical"
         android:weightSum="1.1">
 
@@ -35,7 +35,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.7"
+        android:layout_weight="3.5"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
@@ -133,7 +133,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="2"
         android:weightSum="2"
         android:orientation="vertical"
         >
@@ -141,18 +141,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.7"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="4.5">
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="top"
-                android:layout_weight="2.2"
+                android:layout_weight="1"
                 android:weightSum="4">
 
                 <com.sharity.sharityUser.fonts.EditTextGeoManis
@@ -176,7 +176,7 @@
                 android:layout_height="0dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center"
-                android:layout_weight="2.2"
+                android:layout_weight="1"
                 android:layout_marginTop="7dp"
                 android:weightSum="4">
 
@@ -212,6 +212,7 @@
             android:text="DONE"
             android:textColor="@color/red"
             android:gravity="center|top"
+            android:textSize="@dimen/Dashboard_solde"
             android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

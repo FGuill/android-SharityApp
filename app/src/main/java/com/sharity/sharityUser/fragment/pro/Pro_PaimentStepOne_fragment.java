@@ -33,7 +33,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.sharity.sharityUser.R.id.swipeContainer;
 
 
 /**
@@ -51,7 +50,6 @@ public class Pro_PaimentStepOne_fragment extends Fragment implements Updateable,
     private List<UserLocation> locationUser=new ArrayList<>();
     private TextView paiment_classique;
     private View inflate;
-    private SwipeRefreshLayout swipeContainer;
     GridView grid;
     private OnChildPaymentSelection onSelection;
 
@@ -76,8 +74,6 @@ public class Pro_PaimentStepOne_fragment extends Fragment implements Updateable,
                              Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_paimentstepone_pro, container, false);
         paiment_classique=(TextView)inflate.findViewById(R.id.paiment_classique);
-        swipeContainer = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeContainer);
-        swipeContainer.setOnRefreshListener(this);
         paiment_classique.setOnClickListener(this);
         db = new DatabaseHandler(getActivity());
 
@@ -183,7 +179,6 @@ public class Pro_PaimentStepOne_fragment extends Fragment implements Updateable,
                                 locationUser.add(new UserLocation(userid, queryLatitude, queryLongitude, username, image, token));
                             }
                         }
-                        swipeContainer.setRefreshing(false);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -195,10 +190,8 @@ public class Pro_PaimentStepOne_fragment extends Fragment implements Updateable,
     @Override
     public void onRefresh() {
         if (Utils.isConnected(getActivity())){
-            swipeContainer.setRefreshing(true);
             GetClients();
         }else {
-            swipeContainer.setRefreshing(false);
             Toast.makeText(getActivity(),"Veuillez activer votre wifi ou réseau",Toast.LENGTH_LONG).show();
         }
     }

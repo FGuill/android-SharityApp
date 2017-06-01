@@ -26,9 +26,9 @@ public class GradualGrowingLine extends View {
 
 		listOfPoints = new ArrayList<>();
 		paint = new Paint();
-		paint.setColor(getResources().getColor(R.color.grey));
+		paint.setColor(getResources().getColor(R.color.white));
 		paint.setStrokeCap(Paint.Cap.ROUND);
-		paint.setStrokeWidth(5);
+		paint.setStrokeWidth(4);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class GradualGrowingLine extends View {
 		
 		//	starting point
 		x1 = 0;
-		y1 = 140;
+		y1 = 1;
 		
 		//	ending point
 		x2 = getWidth();

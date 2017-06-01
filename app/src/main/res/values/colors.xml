@@ -9,15 +9,16 @@
     <item name="transparent" type="color">#FFFFFFFF</item>
     <item name="grey" type="color">#cacaca</item>
 
-    <item name="rose" type="color">#fc8292</item>
+    <item name="rose" type="color">#FA7F8D</item>
 
 
-    <item name="green" type="color">#75c33c</item>
+    <item name="lightergrey" type="color">#FFF9F9F9</item>
+    <item name="green" type="color">#72BA6C</item>
     <item name="red" type="color">#ff6871</item>
     <item name="black" type="color">#000000</item>
 
 
-    <item name="blue" type="color">#3b5998</item>
+    <item name="blue" type="color">#0B3B5C</item>
     <item name="bleuclair" type="color">#6899D3</item>
     <item name="bleutrèsclair" type="color">#996899D3</item>
     <item name="greylight" type="color">#a8a8a8</item>

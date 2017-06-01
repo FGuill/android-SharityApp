@@ -5,7 +5,9 @@
 
     <!-- client_login_fragment-->
     <dimen name="title_sharity">25dp</dimen>
-    <dimen name="sharity_subtitle">16dp</dimen>
+    <dimen name="sharity_subtitle">14.5dp</dimen>
+    <dimen name="donate_button">14.5dp</dimen>
+
 
     <!--fragment_login_pro-->
     <dimen name="login_pro_title">21dp</dimen>
@@ -18,6 +20,10 @@
     <dimen name="login_pro_editext_inscription">15dp</dimen>
     <dimen name="login_pro_buttondone_inscription">18dp</dimen>
 
+    <!--fragment_Historique-->
+    <dimen name="fragment_Historique_list_title">14.5dp</dimen>
+    <dimen name="fragment_Historique_list_subtitle">12dp</dimen>
+    <dimen name="fragment_Historique_list_price">16dp</dimen>
 
     <!--fragment_code_pro-->
     <dimen name="fragment_code_pro_title">21dp</dimen>
@@ -28,5 +34,12 @@
     <!--Profil Fragment Title -->
     <dimen name="profil_fragment_title">17dp</dimen>
     <dimen name="fragment_editext">15dp</dimen>
+
+    <!--Dashboard  View-->
+    <dimen name="Dashboard_title">16dp</dimen>
+    <dimen name="Dashboard_solde">17dp</dimen>
+    <dimen name="Dashboard_sharepoint_expense">17dp</dimen>
+    <dimen name="Dashboard_sharepoint_expense_value">12.5dp</dimen>
+
 
 </resources>

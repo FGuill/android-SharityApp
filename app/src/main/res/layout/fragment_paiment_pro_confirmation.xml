@@ -18,11 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:weightSum="4"
         android:layout_weight="1">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:visibility="visible"
             android:text="PAIEMENT VALIDE"
             android:gravity="center"
@@ -31,7 +33,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="ticket enregistré dans l'historique"
             android:layout_margin="10dp"
             android:gravity="center"
@@ -41,9 +44,10 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="+230 RECU"
             android:textSize="17dp"
             android:gravity="center"
@@ -51,7 +55,8 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="250SP envoyé à mégane"

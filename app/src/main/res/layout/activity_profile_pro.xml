@@ -106,7 +106,7 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal|center_vertical"
             android:layout_gravity="center"
-            android:background="#FFFFFF"
+            android:background="@color/rose"
             android:weightSum="3">
 
             <LinearLayout

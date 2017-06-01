@@ -1,6 +1,7 @@
 package com.sharity.sharityUser.fragment.client;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -22,9 +23,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -75,7 +78,7 @@ import static com.sharity.sharityUser.R.id.latitude;
 import static com.sharity.sharityUser.R.id.nom;
 import static com.sharity.sharityUser.R.id.swipeContainer;
 import static com.sharity.sharityUser.R.id.user;
-import static com.sharity.sharityUser.activity.ProfilActivity.isShop;
+import static com.sharity.sharityUser.activity.ProfilActivity.mGoogleApiClient;
 import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
 
 
@@ -85,14 +88,16 @@ import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
 public class client_Container_Partenaire_fragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, Updateable, MapCallback, ResultCallback<LocationSettingsResult> {
 
+    protected static GPSservice gpSservice;
     protected static ArrayList<LocationBusiness> list_shop = new ArrayList<>();
     protected static ArrayList<LocationBusiness> list_shop_filtered = new ArrayList<LocationBusiness>();
     protected static ArrayList<Category> list_categorieReal = new ArrayList<Category>();
 
-    protected static FrameLayout recyclerFrame;
+    protected static RelativeLayout recyclerFrame;
     protected static ParseGeoPoint geoPoint;
     protected static double latitude = 0.0;
     protected static double longitude = 0.0;
+
     private double mlatitude=0.0;
     private double mlongitude=0.0;
 
@@ -101,22 +106,29 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     private View inflate;
     protected ParseUser parseUser = ProfilActivity.parseUser;
     private byte[] imageByte = null;
-    protected static boolean on=false;
+    protected static boolean on=true;
+
+    public  static  boolean isShop=true;
     protected static RelativeLayout frameCategorie;
-    protected static LinearLayout search_layout;
+    protected static Button search_layout;
     protected static View mViewcategorieColapse;
     protected static LayoutInflater vinflater;
     protected static GridView gridview;
     protected static ArrayList<Integer> images = new ArrayList<>();
-    protected static GoogleMap mMap=null;
     int REQUEST_CHECK_SETTINGS = 100;
-    protected static boolean isLocationUpdate=false;
     int size_listshopNew=0;
+
+    protected static boolean isLocationUpdate=false;
+    protected static GoogleMap mMap=null;
     public static LocationRequest mLocationRequest;
-    public static GoogleApiClient mGoogleApiClient;
     public static AdapterGridViewCategorie gridViewCategorie;
     public static String categorie;
+    protected static int countUpdate=0;
 
+    private int Request_Interval=2000;
+    private int Request_Fastest_Interval=1000;
+
+    protected static ProgressBar progressBar;
 
     public static client_Container_Partenaire_fragment newInstance() {
         client_Container_Partenaire_fragment myFragment = new client_Container_Partenaire_fragment();
@@ -136,11 +148,12 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                              Bundle savedInstanceState) {
         inflate = inflater.inflate(R.layout.fragment_partenaire_container_client, container, false);
 
+        gpSservice=new GPSservice(getActivity());
         //We instantiate the List in first, seen by user first.
-        client_Partenaire_list_fragment fragTwo = client_Partenaire_list_fragment.newInstance();
+        client_PartenaireMap_fragment fragTwo = client_PartenaireMap_fragment.newInstance(list_shop, true);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.content, fragTwo, "client_Partenaire_list_fragment");
+        ft.add(R.id.content, fragTwo, "client_PartenaireMap_fragment");
         ft.commit();
 
 
@@ -152,9 +165,9 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     public void onOpen(ArrayList<LocationBusiness> data, boolean type) {
         FragmentManager fm = getChildFragmentManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Utils.AnimationSlideFragment(getActivity(),fm,R.id.content,client_PartenaireMap_fragment.newInstance(data, type),"client_PartenaireMap_fragment", Gravity.BOTTOM,true);
+            Utils.AnimationSlideFragment(getActivity(),fm,R.id.content,client_Partenaire_list_fragment.newInstance(),"client_Partenaire_list_fragment", Gravity.BOTTOM,true);
         }else {
-            Utils.replaceFragmentWithAnimationVertical(R.id.content, client_PartenaireMap_fragment.newInstance(data, type), fm, "client_PartenaireMap_fragment", true);
+            Utils.replaceFragmentWithAnimationVertical(R.id.content, client_Partenaire_list_fragment.newInstance(), fm, "client_Partenaire_list_fragment", true);
         }
     }
 
@@ -163,6 +176,8 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     public void onClose() {
         try {
             ((ProfilActivity)getActivity()).onBackPressed();
+            progressBar.setVisibility(View.INVISIBLE);
+
         }catch (IllegalStateException e){
         }
     }
@@ -192,8 +207,8 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(5000);
-        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setInterval(Request_Interval);
+        mLocationRequest.setFastestInterval(Request_Fastest_Interval);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         OpenGPSettings();
@@ -250,6 +265,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
    public LocationListener gpsLocationListener = new com.google.android.gms.location.LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
+            countUpdate++;
             mLastLocation = location;
             if (mCurrLocationMarker != null) {
                 mCurrLocationMarker.remove();
@@ -266,12 +282,26 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
             geoPoint = new ParseGeoPoint(latitude, longitude);
 
             client_Partenaire_list_fragment list_fragment = (client_Partenaire_list_fragment) getChildFragmentManager().findFragmentByTag("client_Partenaire_list_fragment");
+            client_PartenaireMap_fragment PartenaireMap_fragment = (client_PartenaireMap_fragment) getChildFragmentManager().findFragmentByTag("client_PartenaireMap_fragment");
+
+            if (countUpdate<=2){
             if (list_fragment != null && list_fragment.isVisible()) {
                     if (isShop){
                         list_fragment.ShowShop();
                     }else {
                         list_fragment.ShowSPromotion();
                     }
+            }
+
+            if (PartenaireMap_fragment != null && PartenaireMap_fragment.isVisible()) {
+                if (isShop){
+                    PartenaireMap_fragment.ShowShop();
+                }else {
+                    PartenaireMap_fragment.ShowSPromotion();
+                }
+            }
+            }else {
+                RemoveLocationUpdate();
             }
         }
     };
@@ -309,9 +339,11 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
 
     public void RemoveLocationUpdate(){
+
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, gpsLocationListener);
+                mGoogleApiClient.disconnect();
                 isLocationUpdate=false;
             }
         }
@@ -565,30 +597,37 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     @Override
     public void onStart() {
         if (mGoogleApiClient == null) {
+            try{
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (ContextCompat.checkSelfPermission(getActivity(),
+                    if (ContextCompat.checkSelfPermission(getContext(),
                             permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
                         if (mGoogleApiClient == null) {
                             Log.d("mGoogleApiClient", "Start connection");
                             buildGoogleApiClient();
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     } else {
                         permissionRuntime.Askpermission(permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION, permissionRuntime.Code_ACCESS_FINE_LOCATION);
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }
-            }, 2000);
+            }, 5000);}
+
+            catch (NullPointerException e){
+            }
         }else {
             if (!mGoogleApiClient.isConnected()) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         buildGoogleApiClient();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
-                }, 1000);
-                Log.d("mGoogleApiClient", "Disconnected");
+                }, 3000);
+                Log.d("mGoogleApiClient", "connection");
             }
         }
 
@@ -601,6 +640,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, gpsLocationListener);
+                Log.d("GoogleApiClient","Disconnect");
             }
             mGoogleApiClient.disconnect();
         }

@@ -25,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -199,6 +200,68 @@ public class Utils {
 
     }
 
+    public static void showDialogPaiement(Context activity,String message, boolean success, Boolean hideCancel, final Click ok) {
+
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_donation);
+
+        TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+        ImageView image = (ImageView) dialog.findViewById(R.id.image);
+        RelativeLayout background=(RelativeLayout)dialog.findViewById(R.id.background);
+
+        if (success){
+            image.setBackgroundResource(R.drawable.checked_success);
+            text.setText(message);
+
+        }else{
+            image.setBackgroundResource(R.drawable.check_denied);
+            text.setText(message);
+        }
+
+
+        TextView titleTV = (TextView) dialog.findViewById(R.id.titletext);
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
+        Button cancelBtn = (Button) dialog.findViewById(R.id.cancel_btn);
+        dialogButton.setVisibility(View.INVISIBLE);
+        if (hideCancel) {
+            cancelBtn.setVisibility(View.INVISIBLE);
+            cancelBtn.setClickable(false);
+        } else {
+            cancelBtn.setVisibility(View.VISIBLE);
+            cancelBtn.setClickable(true);
+        }
+
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ok.Cancel();
+                dialog.dismiss();
+            }
+        });
+
+        titleTV.setVisibility(View.INVISIBLE);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ok.Ok();
+                dialog.dismiss();
+            }
+        });
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ok.Cancel();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
     public static void showDialogPermission(Context activity, String message, String title, Boolean hideCancel, final Click ok) {
 
         final Dialog dialog = new Dialog(activity);
@@ -337,6 +400,17 @@ public class Utils {
         return screenWidth;
     }
 
+    public static int getScreenHeight(Context context) {
+        int screenHeight=0;
+        if (screenHeight == 0) {
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            screenHeight = size.y;
+        }
+        return screenHeight;
+    }
 
     public static String SplitTime(String time) {
         String string = time;

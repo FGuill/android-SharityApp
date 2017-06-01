@@ -22,10 +22,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:textSize="15.5sp"
+                android:textSize="@dimen/fragment_Historique_list_title"
                 android:id="@+id/dons"
+                android:textColor="@color/blue"
                 android:text="payment from"
-                android:textColor="@color/black"
                 />
 
 
@@ -34,10 +34,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dons"
                 android:id="@+id/date_dons"
-                android:textSize="12.5sp"
+                android:textSize="@dimen/fragment_Historique_list_subtitle"
                 android:text="date"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:layout_alignLeft="@+id/dons"
                 android:layout_alignStart="@+id/dons" />
 
@@ -46,8 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/price_dons"
-                android:textSize="15.5sp"
-                android:textColor="@color/black"
+                android:textSize="@dimen/fragment_Historique_list_price"
+                android:textColor="#6CBA7C"
                 app:GeomanisRegular="geomanistregular.ttf"
                 android:layout_marginRight="8dp"
                 android:layout_marginEnd="8dp"

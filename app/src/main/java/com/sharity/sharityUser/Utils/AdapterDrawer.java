@@ -81,10 +81,12 @@ public class AdapterDrawer extends BaseAdapter {
             }
            else if (listViewItemType == 0) {
                 if (Status(context).equals("Business")) {
-                    holder.picture_profil.setImageBitmap(it.getPictureProfile());
+                    holder.picture_profil.setImageResource(it.getLogo());
+                    holder.name_profil.setText(it.getItems().toUpperCase());
+
                 }else if (Status(context).equals("User")){
                     holder.picture_profil.setImageBitmap(it.getPictureProfile());
-                   holder.name_profil.setText(it.getItems());
+                   holder.name_profil.setText(it.getItems().toUpperCase());
                 }
 
             } else if(listViewItemType == 1) {

@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,8 +47,10 @@ import com.sharity.sharityUser.BO.Business;
 import com.sharity.sharityUser.BO.BusinessTransaction;
 import com.sharity.sharityUser.BO.CISSTransaction;
 import com.sharity.sharityUser.BO.Drawer;
+import com.sharity.sharityUser.BO.User;
 import com.sharity.sharityUser.LocalDatabase.DatabaseHandler;
 import com.sharity.sharityUser.R;
+import com.sharity.sharityUser.Utils.AdapterDrawer;
 import com.sharity.sharityUser.Utils.AdapterNews;
 import com.sharity.sharityUser.Utils.Utils;
 import com.sharity.sharityUser.fragment.client.client_Container_Mission_fragment;
@@ -66,6 +71,8 @@ import static com.sharity.sharityUser.R.id.montant_recue;
 import static com.sharity.sharityUser.R.id.tab_historique;
 import static com.sharity.sharityUser.R.id.tab_mission;
 import static com.sharity.sharityUser.R.id.tab_utilisateur;
+import static com.sharity.sharityUser.R.id.user;
+import static com.sharity.sharityUser.activity.ProfilProActivity.db;
 
 
 /**
@@ -76,7 +83,7 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
     private IntentFilter mIntent;
     private Boolean emailVerified;
     public static DatabaseHandler db;
-    static int TOTAL_PAGES=4;
+    static int TOTAL_PAGES=3;
     private ViewPager pager;
     private Toolbar toolbar;
     private BottomBar bottomBar;
@@ -87,7 +94,7 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
     private ListView myDrawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private ArrayList<Drawer> drawersItems= new ArrayList<Drawer>();
-    private AdapterNews adapter;
+    private AdapterDrawer adapter;
     public static ProfilProActivity profilProActivity;
     public static String profileSource;
     public ListenFromActivity activityListener;
@@ -119,17 +126,24 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
              /*
             * set & Display nav drawer
             **/
-            drawer_layout=(DrawerLayout) findViewById(R.id.drawer_layout);
-            drawersItems.add(0, new Drawer(R.drawable.logo, "", 0));
-            drawersItems.add(1, new Drawer(R.drawable.logo, "Finir mon inscription", 1));
-            drawersItems.add(2, new Drawer(R.drawable.logo, "Informations de profil", 1));
-            drawersItems.add(3, new Drawer(R.drawable.logo, "CGU", 1));
-            drawersItems.add(4, new Drawer(R.drawable.logo, "Contacts", 1));
-            drawersItems.add(5, new Drawer(R.drawable.logo, "Noter l'app", 1));
-            drawersItems.add(6, new Drawer(R.drawable.logo, "Déconnexion", 1));
+
+            final String objectid = db.getBusinessId();
+            Business business = db.getBusiness(objectid);
+            String name= business.get_businessName();
+
+            drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawersItems.add(0, new Drawer(null, "SHARITY", -1));
+            drawersItems.add(1, new Drawer(R.drawable.icon_logo, name, 0));
+            drawersItems.add(2, new Drawer(null, "Finir mon inscription", 1));
+            drawersItems.add(3, new Drawer(null, "Informations de profil", 1));
+            drawersItems.add(4, new Drawer(null, "CGU", 1));
+            drawersItems.add(5, new Drawer(null, "Contacts", 1));
+            drawersItems.add(6, new Drawer(null, "Noter l'app", 1));
+            drawersItems.add(7, new Drawer(null, "Déconnexion", 1));
+
 
             myDrawer = (ListView) findViewById(R.id.my_drawer);
-            adapter = new AdapterNews(ProfilProActivity.this, drawersItems);
+            adapter = new AdapterDrawer(ProfilProActivity.this, drawersItems);
             myDrawer.setAdapter(adapter);
 
             pager = (ViewPager) findViewById(R.id.pager);
@@ -137,7 +151,7 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
             mViewPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(mViewPagerAdapter);
             pager.setCurrentItem(1,true);
-            profileSource="Profil";
+            profileSource="Paiment";
 
             pager.setOnPageChangeListener(mPageChangeListener);
             mViewPagerAdapter.notifyDataSetChanged();
@@ -191,18 +205,19 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
                     case 0:
                         break;
                     case 1:
+
+                        break;
+                    case 2:
                         pager.setCurrentItem(1,true);
                         if (null != activityListener) {
                             activityListener.doSomethingInFragment("Finalize_inscription");
                         }
                         break;
-                    case 2:
+                    case 3:
                         pager.setCurrentItem(1,true);
                         if (null != activityListener) {
                             activityListener.doSomethingInFragment("Profilinfo");
                         }
-                        break;
-                    case 3:
 
                         break;
                     case 4:
@@ -211,6 +226,8 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
                     case 5:
                         break;
                     case 6:
+                        break;
+                    case 7:
                         //Disconnection
                         parseUser.logOut();
                         Intent intent = new Intent(ProfilProActivity.this, LoginActivity.class);
@@ -284,15 +301,11 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
             if (position == 0) {
                 return History_container_fragment.newInstance();
             } else if (position == 1) {
-                return Pro_Profil_Container_fragment.newInstance(profileSource);
+              //  return Pro_Profil_Container_fragment.newInstance(profileSource);
+                return Pro_Paiment_fragment.newInstance(profileSource);
             } else if (position == 2) {
-                return Pro_Paiment_fragment.newInstance();
-            }
-            else if (position == 3) {
                 return client_Container_Mission_fragment.newInstance();
             }
-
-
             return null;
         }
 
@@ -359,16 +372,41 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
         @Override
         public void onPageSelected(int position) {
             setIndicator(position);
-            bottomBar.setInActiveTabColor(getResources().getColor(R.color.black));
-            bottomBar.setActiveTabColor(getResources().getColor(R.color.red));
+            bottomBar.setInActiveTabColor(getResources().getColor(R.color.white));
+            bottomBar.setActiveTabColor(getResources().getColor(R.color.white));
             if (position==0){
                 toolbarTitle.setText("HISTORIQUE");
+                final History_container_fragment history_container_fragment=(History_container_fragment)mViewPagerAdapter.getRegisteredFragment(position);
+                if (history_container_fragment!=null){
+                    if (history_container_fragment.isAdded()){
+                        //Permit to call the update function in fragment to reanimate circleprogress
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                history_container_fragment.update();
+
+                            }
+                        }, 400);
+                    }
+                }
             }else if (position==1){
-                toolbarTitle.setText("PROFIL");
-            }else if (position==2){
                 toolbarTitle.setText("PAIMENT");
+
+                final Pro_Paiment_fragment pro_paiment_fragment=(Pro_Paiment_fragment)mViewPagerAdapter.getRegisteredFragment(position);
+                if (pro_paiment_fragment!=null){
+                    if (pro_paiment_fragment.isAdded()){
+                        //Permit to call the update function in fragment to reanimate circleprogress
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                pro_paiment_fragment.update();
+
+                            }
+                        }, 400);
+                    }
+                }
             }
-            else if (position==3){
+            else if (position==2){
                 toolbarTitle.setText("MISSIONS");
             }
         }
@@ -422,8 +460,8 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
     private void buildTabs() {
         bottomBar.setOnTabSelectListener(this,true);
         setIndicator(1);
-        bottomBar.setInActiveTabColor(getResources().getColor(R.color.black));
-        bottomBar.setActiveTabColor(getResources().getColor(R.color.red));
+        bottomBar.setInActiveTabColor(getResources().getColor(R.color.white));
+        bottomBar.setActiveTabColor(getResources().getColor(R.color.white));
     }
 
     //Bottom Bar onCLick
@@ -434,16 +472,12 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
                 pager.setCurrentItem(0,true);
                 mViewPagerAdapter.notifyDataSetChanged();
                 break;
-            case R.id.tab_profil:
+            case tab_utilisateur:
                 pager.setCurrentItem(1,true);
                 mViewPagerAdapter.notifyDataSetChanged();
                 break;
-            case tab_utilisateur:
-                pager.setCurrentItem(2,true);
-                mViewPagerAdapter.notifyDataSetChanged();
-                break;
             case tab_mission:
-                pager.setCurrentItem(3,true);
+                pager.setCurrentItem(2,true);
                 mViewPagerAdapter.notifyDataSetChanged();
                 break;
         }
@@ -533,50 +567,22 @@ public class ProfilProActivity extends AppCompatActivity implements OnTabSelectL
             final String amount = intent.getStringExtra("amount");
             final String clientName = intent.getStringExtra("clientName");
             int item = pager.getCurrentItem();
-            if (item!=2){
-                if(!ProfilProActivity.this.isFinishing()){
-                    ProfilProActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Utils.showDialog3(ProfilProActivity.this, SetMontantRecu(amount,clientName,approved), "Paiement", true, new Utils.Click() {
-                                @Override
-                                public void Ok() {
-                                }
 
-                                @Override
-                                public void Cancel() {
-
-                                }
-                            });
-                        }
-                    });
+                Pro_Paiment_fragment pro_paiment_fragment=(Pro_Paiment_fragment) mViewPagerAdapter.getRegisteredFragment(1);
+               if (item==1){
+            if (pro_paiment_fragment!=null) {
+                if (pro_paiment_fragment.isAdded()) {
+                    onConfirmationPaiment.TaskOnConfirmation(amount, clientName, approved);
                 }
-            }else {
-                Pro_Paiment_fragment pro_paiment_fragment=(Pro_Paiment_fragment) mViewPagerAdapter.getRegisteredFragment(2);
-                if (pro_paiment_fragment!=null){
-                    if (pro_paiment_fragment.isAdded()){
-                        onConfirmationPaiment.TaskOnConfirmation(amount, clientName,approved);
-                    }else {
-                        if(!ProfilProActivity.this.isFinishing()){
-                            ProfilProActivity.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    Utils.showDialog3(ProfilProActivity.this, SetMontantRecu(amount,clientName,approved), "Paiement", true, new Utils.Click() {
-                                        @Override
-                                        public void Ok() {
-                                        }
-
-                                        @Override
-                                        public void Cancel() {
-
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }
-                }
-               // FragmentManager fm = getSupportFragmentManager();
-              //  Utils.replaceFragmentWithAnimationVertical(R.id.container, Pro_Paiment_Confirmation_fragment.newInstance(amount,clientName,approved),fm,"Display_Paiment_Confirmation",true);
             }
+               }else {
+                    Intent intent2=new Intent(ProfilProActivity.this,PaimementActivity.class);
+                    intent2.putExtra("montant",amount) ;
+                    intent2.putExtra("clientName",clientName) ;
+                    intent2.putExtra("approved",approved) ;
+                    startActivity(intent2);
+            }
+
         }
     };
 

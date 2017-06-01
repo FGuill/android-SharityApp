@@ -27,8 +27,17 @@
         <attr name="MontSerraThin" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="TextViewOpenSansSemiBold">
+        <attr name="OpenSansSB" format="string"/>
+    </declare-styleable>
+
 
     <declare-styleable name="GradualGrowingLine">
         <attr name="android:background"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="DashboardView">
+        <attr name="Type" format="string" />
     </declare-styleable>
 </resources>

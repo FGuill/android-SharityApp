@@ -5,10 +5,10 @@
 
     <!-- client_login_fragment-->
     <dimen name="title_sharity">22.5dp</dimen>
-    <dimen name="sharity_subtitle">15dp</dimen>
 
     <dimen name="custom_profile_image">50dp</dimen>
     <dimen name="custom_profile_padding">2dp</dimen>
+    <dimen name="donate_button">14.5dp</dimen>
 
     <dimen name="spacing_micro">4dp</dimen>
     <dimen name="spacing_normal">8dp</dimen>
@@ -24,4 +24,18 @@
     <integer name="anim_duration_very_long">1500</integer>
     <integer name="anim_duration_long">380</integer>
     <integer name="anim_duration_medium">300</integer>
+
+
+    <!--fragment_Historique-->
+    <dimen name="fragment_Historique_list_title">14.5dp</dimen>
+    <dimen name="fragment_Historique_list_subtitle">12dp</dimen>
+    <dimen name="fragment_Historique_list_price">16dp</dimen>
+
+
+    <!--Dashboard  View-->
+    <dimen name="Dashboard_title">16dp</dimen>
+    <dimen name="Dashboard_solde">16.5dp</dimen>
+    <dimen name="Dashboard_sharepoint_expense">17dp</dimen>
+    <dimen name="Dashboard_sharepoint_expense_value">12dp</dimen>
+
 </resources>

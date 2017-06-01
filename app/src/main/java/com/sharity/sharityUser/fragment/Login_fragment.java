@@ -4,6 +4,7 @@ package com.sharity.sharityUser.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -67,6 +68,9 @@ public class Login_fragment extends Fragment implements View.OnClickListener, Lo
             StrictMode.setThreadPolicy(policy);
         }
 
+        ImageView lineColorCode = (ImageView)inflate.findViewById(R.id.logo);
+        int color = Color.parseColor("#FFFFFF"); //The color u want
+        lineColorCode.setColorFilter(color);
 
         twitter = (ImageView) inflate.findViewById(R.id.twitter_login);
         facebook = (ImageView) inflate.findViewById(R.id.facebook_login);
