@@ -257,11 +257,24 @@
 
         </RelativeLayout>
 
-        <FrameLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:id="@+id/frame_categorie"
+        android:layout_below="@+id/frame_research"
+       >
+
+
+    </RelativeLayout>
+
+
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:clickable="true"
+            android:id="@+id/frame_research"
             android:layout_marginTop="10dp"
             >
 
@@ -313,6 +326,5 @@
             </LinearLayout>
         </FrameLayout>
 
-
-    </RelativeLayout>
+</RelativeLayout>
 

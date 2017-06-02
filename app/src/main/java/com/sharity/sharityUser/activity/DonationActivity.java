@@ -51,24 +51,14 @@ import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
 /**
  * Created by Moi on 07/05/2016.
  */
-public class DonationActivity extends AppCompatActivity implements View.OnClickListener {
+public class DonationActivity extends AppCompatActivity {
 
-    private ImageView close;
-    private Toolbar toolbar;
-    private TextView toolbar_title;
-    public static DatabaseHandler db;
-    public static ArrayList<CharityDons> list_dons = new ArrayList<CharityDons>();
-    public static ParseUser parseUser;
     @Override
 public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation);
 
     if (savedInstanceState ==null){
-        db=new DatabaseHandler(this);
-        parseUser = ParseUser.getCurrentUser();
-
-
         Intent intent = getIntent();
         String source = intent.getStringExtra("source");
 
@@ -95,11 +85,6 @@ public void onCreate( Bundle savedInstanceState) {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle savedState) {
-        super.onSaveInstanceState(savedState);
-    }
 
 
     @Override
@@ -168,14 +153,6 @@ public void onCreate( Bundle savedInstanceState) {
         super.onDestroy();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.close:
-                finish();
-                break;
-        }
-    }
 }
 
 

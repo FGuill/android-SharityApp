@@ -156,7 +156,6 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
         ft.add(R.id.content, fragTwo, "client_PartenaireMap_fragment");
         ft.commit();
 
-
         return inflate;
     }
 
@@ -321,7 +320,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
         try {
             ParseUser parseUser = ParseUser.getCurrentUser();
             parseUser.put("geoloc", point);
-            parseUser.saveInBackground(new SaveCallback() {
+            parseUser.saveEventually(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     // TODO Auto-generated method stub

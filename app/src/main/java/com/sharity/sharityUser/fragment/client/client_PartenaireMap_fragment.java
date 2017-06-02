@@ -315,12 +315,13 @@ public class client_PartenaireMap_fragment extends Fragment implements
                     //Show  "Categorie" expand collapse //
                     if (!isShop) {
                         if (issearch) {
-                            frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_expand);
+                            frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_categorie);
                             mViewcategorieColapse = vinflater.inflate(R.layout.layout_editingsequence, frameCategorie, false);
                             frameCategorie.addView(mViewcategorieColapse);
                             gridview = (GridView) mViewcategorieColapse.findViewById(R.id.customgrid);
                             gridViewCategorie=new AdapterGridViewCategorie(getActivity(), list_categorieReal, onItemGridCategorieClickListener);
-
+                            Utils.expand(mViewcategorieColapse);
+                            search_layout.setText("annuler");
                             if (getList_categorie().isEmpty()){
                                 ((client_Container_Partenaire_fragment)getParentFragment()).get_Categorie(new client_Container_Partenaire_fragment.DataCallBack() {
                                     @Override
@@ -333,9 +334,9 @@ public class client_PartenaireMap_fragment extends Fragment implements
                             }
 
 
-                            Utils.expand(mViewcategorieColapse);
                             issearch = false;
                         } else {
+                            search_layout.setText("recherche");
                             //  frameCategorie.removeView(mViewcategorieColapse);
                             Utils.collapse(mViewcategorieColapse);
                             issearch = true;
@@ -361,10 +362,12 @@ public class client_PartenaireMap_fragment extends Fragment implements
                     gpSservice.getState();
                             if (gpSservice.isGPSEnabled() && gpSservice.isNetworkEnabled()){
                                 if (!isLocationUpdate()){
-                                    if (mGoogleApiClient.isConnected()) {
-                                        ((client_Container_Partenaire_fragment) getParentFragment()).startLocationUpdates();
-                                    }else {
-                                        mGoogleApiClient.connect();
+                                    if (mGoogleApiClient!=null) {
+                                        if (mGoogleApiClient.isConnected()) {
+                                            ((client_Container_Partenaire_fragment) getParentFragment()).startLocationUpdates();
+                                        } else {
+                                            mGoogleApiClient.connect();
+                                        }
                                     }
                                 }
                                 if (on){
@@ -459,7 +462,9 @@ public class client_PartenaireMap_fragment extends Fragment implements
                 icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(String.valueOf(text)))).
                 position(position).
                 anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-        mMap.addMarker(markerOptions);
+             if (mMap!=null) {
+            mMap.addMarker(markerOptions);
+        }
     }
 
     private CharSequence makeCharSequence() {

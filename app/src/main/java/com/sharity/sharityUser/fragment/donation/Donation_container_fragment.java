@@ -33,47 +33,46 @@ import com.sharity.sharityUser.fragment.DashboardView;
 import com.sharity.sharityUser.fragment.client.client_donation_details_fragment;
 import com.sharity.sharityUser.fragment.client.client_donation_fragment;
 
-import static com.sharity.sharityUser.activity.DonationActivity.db;
-import static com.sharity.sharityUser.activity.DonationActivity.parseUser;
+import static com.sharity.sharityUser.R.id.user;
+import static com.sharity.sharityUser.activity.ProfilActivity.db;
+import static com.sharity.sharityUser.activity.ProfilActivity.parseUser;
 
 
 /**
  * Created by Moi on 14/11/15.
  */
-public class Donation_container_fragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener,client_donation_fragment.OnCharitySelected {
+public class Donation_container_fragment extends Fragment implements View.OnClickListener,client_donation_fragment.OnCharitySelected {
 
-    protected client_donation_fragment.OnCharitySelected onCharitySelected;
     protected View inflate;
-    protected boolean isClient=false;
-    public static TextView sharepoints_moins;
-    public static TextView sharepoints_plus;
-    public static TextViewGeoManis points;
-    public static TextView do_donationTV;
-    public static int sharepoints_user_donate =0;
-    public static int user_solde=0;
-    public static int user_sharepoint_expense=0;
-    public static int user_sharepoint_stock=0;
+    protected  TextView sharepoints_moins;
+    protected  TextView sharepoints_plus;
+    protected  TextViewGeoManis points;
+    protected  TextView do_donationTV;
 
-    public static DashboardView dashboardClientView;
-    public static boolean donation=false;
+    public  int sharepoints_user_donate =0;
+    public  int user_solde=0;
+    public  int user_sharepoint_expense=0;
+    public  int user_sharepoint_stock=0;
 
-    public static int recycler_position = -1;
-    public static  int sharepoints_user_temp;
-    public static  int sharepoints_user_depense;
+    public DashboardView dashboardClientView;
+    public boolean donation=false;
+
+    public int recycler_position = -1;
+    public int sharepoints_user_temp;
+    public int sharepoints_user_depense;
 
     //Field donation to charity
-    public static String CharityName;
-    public static String CharityId;
+    public String CharityName;
+    public String CharityId;
 
-    public static  LinearLayout dons_view;
-    public static  Handler UpdateHandler = new Handler();
-    public static  boolean mAutoIncrement = false;
-    public static  boolean mAutoDecrement = false;
-    public static  int REP_DELAY=300;
-    public static  boolean isLongClick=false;
+    protected  Handler UpdateHandler = new Handler();
+    protected  boolean mAutoIncrement = false;
+    protected  boolean mAutoDecrement = false;
+    protected  int REP_DELAY=300;
+    public boolean isLongClick=false;
 
-    public static int sharepoint_solde_screenTransition=0;
-    public static int sharepoint_genarated_screenTransition=0;
+    public int sharepoint_solde_screenTransition=0;
+    public int sharepoint_genarated_screenTransition=0;
 
    public static String source=null;
     public static Donation_container_fragment newInstance(String source) {
@@ -87,120 +86,118 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         inflate = inflater.inflate(R.layout.fragment_donation_container, container, false);
 
-        do_donationTV = (TextView) inflate.findViewById(R.id.do_donationTV);
-        points = (TextViewGeoManis) inflate.findViewById(R.id.points);
-        points.setText(String.valueOf(sharepoints_user_donate));
-        sharepoints_moins = (TextView) inflate.findViewById(R.id.sharepoints_moins);
-        sharepoints_plus = (TextView) inflate.findViewById(R.id.sharepoints_plus);
+        if (savedInstanceState == null) {
+            do_donationTV = (TextView) inflate.findViewById(R.id.do_donationTV);
+            points = (TextViewGeoManis) inflate.findViewById(R.id.points);
+            points.setText(String.valueOf(sharepoints_user_donate));
+            sharepoints_moins = (TextView) inflate.findViewById(R.id.sharepoints_moins);
+            sharepoints_plus = (TextView) inflate.findViewById(R.id.sharepoints_plus);
 
-        source=getArguments().getString("source");
+            source = getArguments().getString("source");
 
-        do_donationTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (recycler_position >= 0) {
-                    if (CharityId != null) {
-                        if (sharepoints_user_donate > 0) {
-                            if (Utils.isConnected(getActivity())) {
-                                CreateTransaction(CharityName, CharityId, String.valueOf(sharepoints_user_donate));
-                            }else {
-                                Toast.makeText(getActivity(), "Veuillez activer votre réseau WIFI ou réseau", Toast.LENGTH_LONG).show();
+            if (getArguments().getString("source").toString() != null) {
+                Fragment currentFagment = getFragmentManager().findFragmentById(R.id.Fragment_container);
+                if (currentFagment instanceof client_donation_fragment) {
+                } else {
+                    FragmentManager fm = getChildFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    client_donation_fragment fragTwo = new client_donation_fragment();
+                    ft.add(R.id.Fragment_container, fragTwo, "client_donation_fragment");
+                    ft.commit();
+                }
+            }
+
+
+            do_donationTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recycler_position >= 0) {
+                        if (CharityId != null) {
+                            if (sharepoints_user_donate > 0) {
+                                if (Utils.isConnected(getActivity())) {
+                                    CreateTransaction(CharityName, CharityId, String.valueOf(sharepoints_user_donate));
+                                } else {
+                                    Toast.makeText(getActivity(), "Veuillez activer votre réseau WIFI ou réseau", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "Veuillez envoyer une valeur supérieur à 0", Toast.LENGTH_LONG).show();
                             }
-                        }else {
-                            Toast.makeText(getActivity(), "Veuillez envoyer une valeur supérieur à 0", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Veuillez séléctionner une charité", Toast.LENGTH_LONG).show();
                         }
                     } else {
                         Toast.makeText(getActivity(), "Veuillez séléctionner une charité", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(getActivity(), "Veuillez séléctionner une charité", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
 
 
-        sharepoints_moins.setOnLongClickListener(
-                new View.OnLongClickListener(){
-                    public boolean onLongClick(View arg0) {
-                        mAutoDecrement = true;
-                        isLongClick=true;
-                        UpdateHandler.post( new Donation_container_fragment.RptUpdater() );
-                        return false;
+            sharepoints_moins.setOnLongClickListener(
+                    new View.OnLongClickListener() {
+                        public boolean onLongClick(View arg0) {
+                            mAutoDecrement = true;
+                            isLongClick = true;
+                            UpdateHandler.post(new Donation_container_fragment.RptUpdater());
+                            return false;
+                        }
                     }
-                }
-        );
+            );
 
-        sharepoints_moins.setOnTouchListener( new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if( (event.getAction()==MotionEvent.ACTION_DOWN)
-                        ){
-                    if (!isLongClick){
-                        isLongClick=false;
+            sharepoints_moins.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if ((event.getAction() == MotionEvent.ACTION_DOWN)
+                            ) {
+                        if (!isLongClick) {
+                            isLongClick = false;
+                            mAutoDecrement = false;
+                            decrement();
+                        } else {
+                            mAutoDecrement = true;
+                        }
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         mAutoDecrement = false;
-                        decrement();
-                    }else {
-                        mAutoDecrement = true;
                     }
-                }else if (event.getAction()==MotionEvent.ACTION_UP){
-                    mAutoDecrement = false;
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        sharepoints_plus.setOnLongClickListener(
-                new View.OnLongClickListener(){
-                    public boolean onLongClick(View arg0) {
-                        mAutoIncrement = true;
-                        isLongClick=true;
-                        UpdateHandler.post( new Donation_container_fragment.RptUpdater() );
-                        return false;
+            sharepoints_plus.setOnLongClickListener(
+                    new View.OnLongClickListener() {
+                        public boolean onLongClick(View arg0) {
+                            mAutoIncrement = true;
+                            isLongClick = true;
+                            UpdateHandler.post(new Donation_container_fragment.RptUpdater());
+                            return false;
+                        }
                     }
-                }
-        );
+            );
 
-        sharepoints_plus.setOnTouchListener( new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if( (event.getAction()==MotionEvent.ACTION_DOWN)
-                        ){
-                    if (!isLongClick){
-                        isLongClick=false;
+            sharepoints_plus.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if ((event.getAction() == MotionEvent.ACTION_DOWN)
+                            ) {
+                        if (!isLongClick) {
+                            isLongClick = false;
+                            mAutoIncrement = false;
+                            increment();
+                        } else {
+                            mAutoIncrement = true;
+                        }
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
                         mAutoIncrement = false;
-                        increment();
-                    }else {
-                        mAutoIncrement = true;
+                        isLongClick = false;
                     }
-                }else if (event.getAction()==MotionEvent.ACTION_UP){
-                    mAutoIncrement = false;
-                    isLongClick=false;
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
-        if (getArguments().getString("source").toString()!=null){
-                Fragment currentFagment= getFragmentManager().findFragmentById(R.id.Fragment_container);
-                if (currentFagment instanceof client_donation_fragment){
-                }else {
-                    FragmentManager fm = getChildFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    client_donation_fragment fragTwo = new client_donation_fragment();
-                    ft.add(R.id.Fragment_container, fragTwo,"client_donation_fragment");
-                    ft.commit();
-                }
         }
-
-        return inflate;
-    }
-
-    @Override
-    public void onRefresh() {
+            return inflate;
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -216,7 +213,6 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
             Utils.replaceFragmentWithAnimationVertical(R.id.Fragment_container,client_donation_details_fragment.newInstance(user),fm,"client_donation_details_fragment",true);
         }
     }
-
 
 
 
@@ -420,7 +416,6 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
         sharepoints_user_temp=0;
         sharepoints_user_depense=0;
         user_sharepoint_stock=0;
-
         super.onDestroy();
     }
 }

@@ -27,6 +27,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -45,49 +46,22 @@ import com.sharity.sharityUser.activity.ProfilActivity;
 import com.sharity.sharityUser.fonts.TextViewGeoManis;
 import com.sharity.sharityUser.fragment.DashboardView;
 import com.sharity.sharityUser.fragment.Updateable;
+import com.sharity.sharityUser.fragment.donation.Donation_container_fragment;
 import com.sharity.sharityUser.fragment.pro.Pro_PaimentStepOne_fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.sharity.sharityUser.R.id.toolbar_title;
-import static com.sharity.sharityUser.R.id.user;
-import static com.sharity.sharityUser.activity.DonationActivity.db;
-import static com.sharity.sharityUser.activity.DonationActivity.list_dons;
-import static com.sharity.sharityUser.activity.DonationActivity.parseUser;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.CharityId;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.CharityName;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.REP_DELAY;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.UpdateHandler;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.dashboardClientView;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.do_donationTV;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.donation;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.dons_view;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.isLongClick;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.mAutoDecrement;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.mAutoIncrement;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.points;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.recycler_position;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoint_genarated_screenTransition;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoint_solde_screenTransition;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoints_moins;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoints_plus;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoints_user_depense;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoints_user_donate;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.sharepoints_user_temp;
+import static com.sharity.sharityUser.activity.ProfilActivity.db;
+import static com.sharity.sharityUser.activity.ProfilActivity.parseUser;
 import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.source;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.user_sharepoint_expense;
-import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.user_solde;
 
 
 /**
  * Created by Moi on 14/11/15.
  */
-public class client_donation_fragment extends Fragment implements Updateable, SwipeRefreshLayout.OnRefreshListener, Adapter_profil_Sharity_client.OnItemDonateClickListener, View.OnClickListener {
+public class client_donation_fragment extends Fragment implements Updateable, SwipeRefreshLayout.OnRefreshListener, Adapter_profil_Sharity_client_vertical.OnItemDonateClickListener, View.OnClickListener {
 
+    private ArrayList<CharityDons> list_dons = new ArrayList<CharityDons>();
     OnCharitySelected onCharitySelected;
     private LayoutInflater vinflater;
     private Adapter_profil_Sharity_client_vertical.OnItemDonateClickListener onItemDonateClickListener;
@@ -100,13 +74,12 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
     private ImageView close;
     private Toolbar toolbar;
     private TextView toolbar_title;
-
-
+    private Donation_container_fragment parentContainer;
 
     public interface OnCharitySelected{
         public void OnSelected(CharityDons user, int i);
-
     }
+
 
     public static client_donation_fragment newInstance() {
         client_donation_fragment myFragment = new client_donation_fragment();
@@ -120,7 +93,6 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vinflater=inflater;
-
         if (source!=null){
             if (source.equals("Client")){
                 inflate = inflater.inflate(R.layout.fragment_donation_client, container, false);
@@ -130,7 +102,8 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
             }
         }
 
-        dashboardClientView = (DashboardView) inflate.findViewById(R.id.dashboardview);
+        parentContainer = ((Donation_container_fragment) getParentFragment());
+        parentContainer.dashboardClientView = (DashboardView) inflate.findViewById(R.id.dashboardview);
         close= (ImageView)inflate.findViewById(R.id.close);
         close.setOnClickListener(this);
         toolbar = (Toolbar) inflate.findViewById(R.id.toolbar);
@@ -141,38 +114,34 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-        dons_view = (LinearLayout) inflate.findViewById(R.id.dons_view);
         recycler_charity = (RecyclerView) inflate.findViewById(R.id.recycler_charity);
         swipeContainer = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(this);
-
         onItemDonateClickListener = this;
-        parseUser = ParseUser.getCurrentUser();
-        donation=true;
 
 
         if (source!=null){
             if (source.equals("Client")) {
                 User user=db.getUser(parseUser.getObjectId());
-                user_solde=Integer.parseInt(user.get_sharepoint());
-                user_sharepoint_expense=Integer.parseInt(user.get_sharepoint_depense());
+                parentContainer.user_solde=Integer.parseInt(user.get_sharepoint());
+                parentContainer.user_sharepoint_expense=Integer.parseInt(user.get_sharepoint_depense());
             }else {
                 final String objectid = db.getBusinessId();
                 Business business = db.getBusiness(objectid);
-                user_solde=Integer.parseInt(business.getSolde());
-                user_sharepoint_expense=Integer.parseInt(business.getSharepoint_depense());
+                parentContainer.user_solde=Integer.parseInt(business.getSolde());
+                parentContainer.user_sharepoint_expense=Integer.parseInt(business.getSharepoint_depense());
             }
 
-                if (sharepoint_genarated_screenTransition!=0){
-                    dashboardClientView.setSolde(sharepoint_solde_screenTransition);
-                    dashboardClientView.setCircularValue(sharepoint_solde_screenTransition,1500);
-                    dashboardClientView.setGeneratedSharepoint(sharepoint_genarated_screenTransition);
+                if (parentContainer.sharepoint_genarated_screenTransition!=0){
+                    parentContainer.dashboardClientView.setSolde(parentContainer.sharepoint_solde_screenTransition);
+                    parentContainer.dashboardClientView.setCircularValue(parentContainer.sharepoint_solde_screenTransition,1500);
+                    parentContainer.dashboardClientView.setGeneratedSharepoint(parentContainer.sharepoint_genarated_screenTransition);
                 }else {
-                    dashboardClientView.setSolde(user_solde);
-                    dashboardClientView.setCircularValue(user_solde,1500);
-                    dashboardClientView.setGeneratedSharepoint(user_sharepoint_expense);
-                    sharepoint_solde_screenTransition=Integer.parseInt(dashboardClientView.getSolde());
-                    sharepoint_genarated_screenTransition=Integer.parseInt(dashboardClientView.getGeneratedSharepoint());
+                    parentContainer.dashboardClientView.setSolde(parentContainer.user_solde);
+                    parentContainer.dashboardClientView.setCircularValue(parentContainer.user_solde,1500);
+                    parentContainer.dashboardClientView.setGeneratedSharepoint(parentContainer.user_sharepoint_expense);
+                    parentContainer.sharepoint_solde_screenTransition=Integer.parseInt(parentContainer.dashboardClientView.getSolde());
+                    parentContainer.sharepoint_genarated_screenTransition=Integer.parseInt(parentContainer.dashboardClientView.getGeneratedSharepoint());
                 }
             }
 
@@ -231,8 +200,8 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
                             sharepoints_depense = object.getInt("sharepoints_depense");
                         }
 
-                        sharepoints_user_depense=sharepoints_depense;
-                        user_solde = sharepoints;
+                        parentContainer.sharepoints_user_depense=sharepoints_depense;
+                        parentContainer.user_solde = sharepoints;
                         Log.d("sharepoints", String.valueOf(sharepoints));
                         swipeContainer.setRefreshing(false);
                     }
@@ -269,18 +238,30 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
                             ParseFile image = (ParseFile) object.getParseFile("Logo");
                             final String name = object.getString("name");
                             final String description = object.getString("description");
+                            final String scope = object.getString("scope");
+                            final String cause = object.getString("cause");
+                            final String email = object.getString("email");
+                            final String url = object.getString("url");
+                            final String addresse = object.getString("address");
+                            final String siret = object.getString("SIRET");
+                            final String RIB = object.getString("RIB");
+                            final String telephoneNumber = object.getString("telephoneNumber");
+                            ParseGeoPoint geoPoint = object.getParseGeoPoint("location");
+                            //  final String url = object.getString("url");
+
+
                             final String id = object.getObjectId();
                             Log.d("obj", id);
                             try {
-                                if (image!=null) {
+                                if (image != null) {
                                     imageByte = image.getData();
-                                }else {
-                                    imageByte=null;
+                                } else {
+                                    imageByte = null;
                                 }
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
-                            list_dons.add(new CharityDons(id, name, description, imageByte));
+                            list_dons.add(new CharityDons(id, name, description, imageByte, email, addresse, url, siret, telephoneNumber, cause, scope, RIB, geoPoint));
                         }
 
                         if (adapter2==null){
@@ -295,17 +276,6 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
         } catch (NullPointerException f) {
 
         }
-    }
-
-
-
-
-    @Override
-    public void onItemClick(int item, CharityDons bo) {
-        onCharitySelected.OnSelected(bo,item);
-        recycler_position = item;
-        CharityName = bo.get_nom();
-        CharityId = bo.getObjectid();
     }
 
 
@@ -337,6 +307,15 @@ public class client_donation_fragment extends Fragment implements Updateable, Sw
             }
         }
     }
+
+    @Override
+    public void onItemClick(int item, CharityDons bo) {
+        parentContainer.recycler_position = item;
+        parentContainer.CharityName = bo.get_nom();
+        parentContainer.CharityId = bo.getObjectid();
+        onCharitySelected.OnSelected(bo,item);
+    }
+
 
 
     private void Initialize_ListView(){

@@ -238,7 +238,7 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
                 //Show  "Categorie" expand collapse //
 
                     if (issearch) {
-                        frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_expand);
+                        frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_categorie);
                         mViewcategorieColapse = vinflater.inflate(R.layout.layout_editingsequence, frameCategorie, false);
                         frameCategorie.addView(mViewcategorieColapse);
                         gridview = (GridView) mViewcategorieColapse.findViewById(R.id.customgrid);
@@ -255,10 +255,12 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
                             gridview.setAdapter(gridViewCategorie);
                         }
                         Utils.expand(mViewcategorieColapse);
+                        search_layout.setText("annuler");
                         issearch = false;
                     } else {
                         //  frameCategorie.removeView(mViewcategorieColapse);
                         Utils.collapse(mViewcategorieColapse);
+                        search_layout.setText("recherche");
                         issearch = true;
                     }
                 break;

@@ -128,7 +128,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
             }
 
             if (viewHolder.distance!=null){
-                viewHolder.distance.setText(String.format("%.0f",shop.getDistance())+"m");
+                viewHolder.distance.setText("-"+String.format("%.0f",shop.getDistance())+"m");
             }
             Log.d("busss","passed") ;
             viewHolder.businessname.setText(shop.get_businessName());
@@ -158,7 +158,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
+        SquareImageView image;
         TextView description, prix,reduction,nom;
         TextView distance, businessname;
         CircleImageView profil;
@@ -166,7 +166,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.imageView);
+            image = (SquareImageView) itemView.findViewById(R.id.imageView);
             background = (RelativeLayout) itemView.findViewById(R.id.background);
 
             nom = (TextView) itemView.findViewById(R.id.nom);
@@ -185,16 +185,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(item, bo);
-
-                    if ((shop.istouch())){
-                        frameCategorie.removeView(mViewcategorieColapse);
-                        shop.setIstouch(false);
-                    }else {
-                        frameCategorie = (RelativeLayout) itemView.findViewById(R.id.frame_expand);
-                        mViewcategorieColapse = mInflater.inflate(R.layout.view_success_donate, frameCategorie, false);
-                        frameCategorie.addView(mViewcategorieColapse);
-                        shop.setIstouch(true);
-                    }
+                    notifyItemChanged(selectedPos);
                     selectedPos = item;
                     notifyItemChanged(selectedPos);
                 }

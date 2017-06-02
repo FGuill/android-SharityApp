@@ -34,7 +34,7 @@ public class Adapter_profil_Sharity_client extends RecyclerView.Adapter<Adapter_
     ArrayList<CharityDons> AL_id_text = new ArrayList<CharityDons>();
     Context mContext;
 
-    public interface OnItemDonateClickListener extends Adapter_profil_Sharity_client_vertical.OnItemDonateClickListener {
+    public interface OnItemDonateClickListener {
         void onItemClick(int item,CharityDons bo);
     }
 
