@@ -15,7 +15,7 @@
 
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
@@ -38,20 +38,6 @@
             android:layout_toRightOf="@+id/imageView"
             android:layout_toEndOf="@+id/imageView" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:id="@+id/distance"
-            tools:text="distance"
-            android:textColor="@color/green"
-            android:layout_alignBaseline="@+id/business_name"
-            android:layout_alignBottom="@+id/business_name"
-            android:layout_toRightOf="@+id/business_name"
-            android:layout_toEndOf="@+id/business_name"
-            android:layout_marginLeft="9dp"
-            android:layout_marginStart="9dp" />
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,6 +47,19 @@
 
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:id="@+id/distance"
+            tools:text="distance"
+            android:textColor="@color/green"
+            android:layout_below="@+id/business_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="14dp"
+            android:layout_marginEnd="14dp" />
 
     </RelativeLayout>
 

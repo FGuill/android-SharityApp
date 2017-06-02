@@ -65,7 +65,7 @@ public class FacebookConnectivity {
         this.onFBUserCreated=onFBUserCreated;
 
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "email,name,picture");
+        parameters.putString("fields", "id,email,name,picture.type(large)");
         new GraphRequest(AccessToken.getCurrentAccessToken(),
                 "/me",
                 parameters,

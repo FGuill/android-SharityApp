@@ -601,18 +601,12 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (ContextCompat.checkSelfPermission(getContext(),
-                            permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
                         if (mGoogleApiClient == null) {
                             Log.d("mGoogleApiClient", "Start connection");
                             buildGoogleApiClient();
                             progressBar.setVisibility(View.INVISIBLE);
                         }
-                    } else {
-                        permissionRuntime.Askpermission(permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION, permissionRuntime.Code_ACCESS_FINE_LOCATION);
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
+
                 }
             }, 5000);}
 

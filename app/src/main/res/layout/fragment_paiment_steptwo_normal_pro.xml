@@ -10,48 +10,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="4"
+    android:weightSum="6.4"
     android:background="@color/white"
-    tools:context="testappparse.guilla.com.testappparse.testappparse.guilla.com.sharity.MainActivity">
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:weightSum="7.7">
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2.5"></View>
+        android:layout_weight="1.7">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_height="match_parent"
+            android:weightSum="4"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_height="0dp"
+                android:layout_weight="2.9"
                 android:gravity="center_vertical|center_horizontal"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/logo"
                 android:id="@+id/picture_profil"
                 style="@style/MaterialAnimations.Icon.Big"
                 android:transitionName="reveal"
                 app:civ_border_width="1dp"
-                app:civ_border_color="@color/blue"/>
+                app:civ_border_color="@color/blue"
+                android:layout_margin="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:orientation="horizontal"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal">
 
                 <TextView
@@ -59,76 +52,120 @@
                     android:layout_height="match_parent"
                     android:id="@+id/username_login"
                     android:textColor="@color/blue"
-                    android:gravity="center_horizontal"
+                    android:gravity="center_vertical|center_horizontal|center"
                     android:text="nom"
-                    android:textSize="18dp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="0.4"
-        android:weightSum="2">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/cash_icone"
-                android:id="@+id/cash" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/cb_icone"
-                android:layout_gravity="center"
-                android:id="@+id/CB" />
-
-
-        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1.4"
-        android:weightSum="3">
+        android:layout_weight="0.8"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:weightSum="4"
+        >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:layout_gravity="center_vertical"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cash_icone"
+                    android:id="@+id/cash" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cb_icone"
+                    android:layout_gravity="center"
+                    android:id="@+id/CB" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+            </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1">
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:weightSum="4"
+        android:gravity="center_horizontal|bottom"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_weight="2"
+            android:weightSum="2">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.2">
+            android:gravity="bottom"
+            android:layout_weight="1.5"
+            >
 
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/tpe"
-                android:textSize="17sp"
+                android:textSize="13sp"
                 android:textColor="@color/black"
                 android:theme="@style/TextLabel"
                 android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="bottom|center_horizontal"
+                android:gravity="bottom|center"
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
@@ -151,12 +188,67 @@
             </ImageView>
 
         </RelativeLayout>
+</LinearLayout>
+    </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:theme="@style/TextLabel"
+                >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/amount_paiment"
+                    android:textSize="13sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="bottom|center_vertical|center_horizontal"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="montant du paiement"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:weightSum="4"
+        android:layout_weight="1">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1.4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:theme="@style/TextLabel"
@@ -165,91 +257,62 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/amount_paiment"
-                android:textSize="17sp"
+                android:id="@+id/sharepoint_supplementary"
+                android:textSize="13sp"
                 android:textColor="@color/black"
                 android:layout_gravity="bottom|center_vertical|center_horizontal"
                 android:inputType="number"
                 android:ems="10"
-                android:gravity="bottom|center"
-                android:hint="prix"
+                android:gravity="center"
+                android:hint="sharepoint supplémentaires"
                 />
-
         </android.support.design.widget.TextInputLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           >
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="montant du paiment"
-                android:id="@+id/paiment_classique"
-                android:gravity="top|center_horizontal"
-                android:textColor="@color/black"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-        </RelativeLayout>
+            </LinearLayout>
     </LinearLayout>
+
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5">
+        android:layout_weight="0.8">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:gravity="center|center_vertical|center_horizontal">
+            android:layout_height="match_parent"
+            android:weightSum="4"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal|center_vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:id="@+id/sharepoint_supplementary"/>
-
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="2.5"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:text="SharePoints Supplémentaire"
-                android:id="@+id/sharepoint_TV"/>
+                android:orientation="vertical"
+                android:weightSum="2">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.2"
+                    android:text="VALIDER"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/valider"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:background="@drawable/border_backgroundgreen_button"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.7"
-        android:gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="VALIDER"
-            android:layout_gravity="center"
-            android:id="@+id/valider"
-            android:padding="10dp"
-            android:textSize="@dimen/login_pro_buttondone"
-            android:gravity="center_horizontal"
-            android:textColor="@color/red"
-            />
-    </LinearLayout>
 
 </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

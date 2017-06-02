@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -157,7 +158,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CircleImageView image;
+        ImageView image;
         TextView description, prix,reduction,nom;
         TextView distance, businessname;
         CircleImageView profil;
@@ -165,7 +166,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image = (CircleImageView) itemView.findViewById(R.id.imageView);
+            image = (ImageView) itemView.findViewById(R.id.imageView);
             background = (RelativeLayout) itemView.findViewById(R.id.background);
 
             nom = (TextView) itemView.findViewById(R.id.nom);
