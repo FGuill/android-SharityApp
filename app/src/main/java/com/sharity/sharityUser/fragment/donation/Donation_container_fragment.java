@@ -229,10 +229,9 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
     }
 
     public void decrement(){
-        if (user_solde > 10){
+        if (user_solde>=10){
             if (sharepoints_user_donate>=10) {
                 sharepoints_user_donate = sharepoints_user_donate - 10;
-
                 if (source.equals("Client")){
                     dashboardClientView.setSolde(Integer.parseInt(dashboardClientView.getSolde()) + 10);
                     dashboardClientView.setCircularValue(Integer.parseInt(dashboardClientView.getSolde()),1);
@@ -241,14 +240,14 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
                 sharepoint_solde_screenTransition=Integer.parseInt(dashboardClientView.getSolde());
                 dashboardClientView.setGeneratedSharepoint(Integer.parseInt(dashboardClientView.getGeneratedSharepoint()) - 10);
                 sharepoint_genarated_screenTransition=Integer.parseInt(dashboardClientView.getGeneratedSharepoint());
-
                 sharepoints_plus.setVisibility(View.VISIBLE);
+
             } else {
                 sharepoints_user_donate = 0;
                 sharepoints_moins.setVisibility(View.VISIBLE);
             }
         }else {
-            Toast.makeText(getActivity(),"Vosu n'avez pas passez de Sharepoints pour efféctuer le don",Toast.LENGTH_LONG);
+            Toast.makeText(getActivity(),"Un solde minimum de 10 sharepoint est requis pour éfféctuer un don",Toast.LENGTH_LONG).show();
             sharepoints_user_donate = 0;
             sharepoints_moins.setVisibility(View.VISIBLE);
         }
@@ -258,32 +257,27 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
 
 
     public void increment(){
-
-        if (user_solde>0) {
+        if (user_solde>=10) {
             sharepoints_user_donate = sharepoints_user_donate + 10;
-            if (sharepoints_user_donate <= user_solde) {
 
-                if (source.equals("Client")){
+                if (Integer.parseInt(dashboardClientView.getSolde())<10){
+                    sharepoints_user_donate = sharepoints_user_donate - 10;
+                }else {
                     dashboardClientView.setSolde(Integer.parseInt(dashboardClientView.getSolde()) - 10);
                     dashboardClientView.setCircularValue(Integer.parseInt(dashboardClientView.getSolde()),1);
+                    dashboardClientView.setGeneratedSharepoint(Integer.parseInt(dashboardClientView.getGeneratedSharepoint()) + 10);
+                    sharepoint_solde_screenTransition=Integer.parseInt(dashboardClientView.getSolde());
+                    sharepoint_genarated_screenTransition=Integer.parseInt(dashboardClientView.getGeneratedSharepoint());
                 }
-                dashboardClientView.setGeneratedSharepoint(Integer.parseInt(dashboardClientView.getGeneratedSharepoint()) + 10);
-                sharepoint_solde_screenTransition=Integer.parseInt(dashboardClientView.getSolde());
-                sharepoint_genarated_screenTransition=Integer.parseInt(dashboardClientView.getGeneratedSharepoint());
 
-            }
 
-            if (sharepoints_user_donate >= user_solde) {
-                sharepoints_user_donate = user_solde;
-                sharepoints_plus.setVisibility(View.VISIBLE);
-            }
-            sharepoints_moins.setVisibility(View.VISIBLE);
             points.setText(String.valueOf(sharepoints_user_donate));
+            sharepoints_moins.setVisibility(View.VISIBLE);
         }else {
-            Toast.makeText(getActivity(),"Vous n'avez pas passez de Sharepoints pour efféctuer le don",Toast.LENGTH_LONG);
+            Log.d("user_solde",String.valueOf(user_solde));
+            Toast.makeText(getActivity(),"Un solde minimum de 10 sharepoint est requis pour éfféctuer un don",Toast.LENGTH_LONG).show();
         }
     }
-
 
 
     /*
@@ -308,9 +302,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    final Number num = sharepoints_user_temp - Integer.parseInt(price);
-                    UpdateUserSharepoints(num,charityName);
-                    //   ShowSuccessDonation();
+                    UpdateUserSharepoints();
                 } else {
                     Log.d("Transaction", "ex" + e.getMessage());
                     PopupStateDonation(false);
@@ -319,7 +311,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
         });
     }
 
-    public void UpdateUserSharepoints(final Number sharepoints, final String name) {
+    public void UpdateUserSharepoints() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
         query.getInBackground(parseUser.getObjectId(), new GetCallback<ParseObject>() {
             public void done(ParseObject gameScore, ParseException e) {

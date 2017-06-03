@@ -26,6 +26,10 @@
     <dimen name="fragment_Historique_list_subtitle">18dp</dimen>
     <dimen name="fragment_Historique_list_price">23dp</dimen>
 
+    <!--fragment Pro  Paiment step two-->
+    <dimen name="fragment_paiement_edittext">17sp</dimen>
+    <dimen name="fragment_paiement_valider">19sp</dimen>
+
 
     <!--fragment_code_pro-->
     <dimen name="fragment_code_pro_title">26.5dp</dimen>
@@ -40,4 +44,9 @@
     <dimen name="Dashboard_solde">22dp</dimen>
     <dimen name="Dashboard_sharepoint_expense">19dp</dimen>
     <dimen name="Dashboard_sharepoint_expense_value">23dp</dimen>
+
+    <!--TPE  dialog-->
+    <dimen name="dialog_cancel_button">18sp</dimen>
+    <dimen name="dialog_validate_button">18sp</dimen>
+    <dimen name="dialog_title">20.5dp</dimen>
 </resources>

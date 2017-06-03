@@ -2,19 +2,19 @@
 <tabs>
     <tab
         id="@+id/tab_option"
-        icon="@drawable/invoice"
+        icon="@drawable/ic_invoice"
          />
     <tab
         id="@+id/tab_profil"
-        icon="@drawable/heart"
+        icon="@drawable/ic_heart"
 
         />
     <tab
         id="@+id/tab_partenaire"
-        icon="@drawable/location_pin"
+        icon="@drawable/ic_location_pin"
         />
     <tab
         id="@+id/tab_mission"
-        icon="@drawable/missions"
+        icon="@drawable/ic_mission"
         />
 </tabs>

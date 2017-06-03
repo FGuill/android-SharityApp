@@ -19,6 +19,10 @@
     <dimen name="login_pro_editext_inscription">11dp</dimen>
     <dimen name="login_pro_buttondone_inscription">16dp</dimen>
 
+    <!--fragment Pro  Paiment step two-->
+    <dimen name="fragment_paiement_edittext">10sp</dimen>
+    <dimen name="fragment_paiement_valider">12sp</dimen>
+
 
     <!--fragment_code_pro-->
     <dimen name="fragment_code_pro_title">17dp</dimen>
@@ -42,4 +46,9 @@
     <dimen name="Dashboard_sharepoint_expense">13dp</dimen>
     <dimen name="Dashboard_sharepoint_expense_value">19dp</dimen>
 
+
+    <!--TPE  dialog-->
+    <dimen name="dialog_cancel_button">11sp</dimen>
+    <dimen name="dialog_validate_button">11sp</dimen>
+    <dimen name="dialog_title">13.5dp</dimen>
 </resources>

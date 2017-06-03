@@ -3,16 +3,16 @@
 
     <tab
         id="@+id/tab_historique"
-        icon="@drawable/invoice"
+        icon="@drawable/ic_invoice"
         />
 
     <tab
         id="@+id/tab_utilisateur"
-        icon="@drawable/iconbar_pro_paiment"
+        icon="@drawable/ic_pro_paiment"
         />
 
     <tab
         id="@+id/tab_mission"
-        icon="@drawable/missions"
+        icon="@drawable/ic_mission"
         />
 </tabs>

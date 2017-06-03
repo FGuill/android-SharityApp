@@ -87,7 +87,13 @@ public class TwitterConnectivity {
                     //email = credential.getString("email");
                     name = credential.getString("name");
                     pictureUrl = credential.getString("profile_image_url");
-                    new ProfilePhotoAsync(pictureUrl).execute();
+                    String str = pictureUrl;
+                    String substr = "_normal";
+                    String before = str.substring(0, str.indexOf(substr));
+                    String after = str.substring(str.indexOf(substr) + substr.length());
+                    String url = before;
+                    url = url.concat(after);
+                    new ProfilePhotoAsync(url).execute();
                 }
                 catch (IOException e) {
                     e.printStackTrace();

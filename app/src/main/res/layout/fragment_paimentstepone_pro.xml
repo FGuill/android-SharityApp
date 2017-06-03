@@ -44,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.25"
+        android:visibility="invisible"
+        android:clickable="false"
         android:gravity="center_horizontal|center_vertical">
 
         <TextView

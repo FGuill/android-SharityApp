@@ -522,7 +522,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
                 }else {
                     // permission was not granted
                     if (ActivityCompat.shouldShowRequestPermissionRationale(ProfilActivity.this, permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)) {
-                        Utils.showDialogPermission(ProfilActivity.this,"L'application Sharity recquiert votre localisation pour le service de paiment et d'achat à proximité","Permission",false, new Utils.Click() {
+                        Utils.showDialogPermission(ProfilActivity.this,"l'application Sharity recquiert votre localisation pour le service de proximité","Permission",false, new Utils.Click() {
                             @Override
                             public void Ok() {
                                 ActivityCompat.requestPermissions(ProfilActivity.this,

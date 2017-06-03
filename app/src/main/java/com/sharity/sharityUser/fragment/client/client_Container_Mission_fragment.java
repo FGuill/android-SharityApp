@@ -52,7 +52,7 @@ import static com.sharity.sharityUser.fragment.client.client_Container_Partenair
 /**
  * Created by Moi on 14/11/15.
  */
-public class client_Container_Mission_fragment extends Fragment implements Updateable{
+public class client_Container_Mission_fragment extends Fragment{
 
 
 
@@ -67,19 +67,18 @@ public class client_Container_Mission_fragment extends Fragment implements Updat
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       View inflate = inflater.inflate(R.layout.dummy_fragment4, container, false);
+       View inflate = inflater.inflate(R.layout.fragment_partenaire_container_client, container, false);
 
+        client_mission_fragment fragTwo = client_mission_fragment.newInstance();
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.content, fragTwo, "client_mission_fragment");
+        ft.commit();
 
         return inflate;
     }
 
     // Callback open map when user click open map.
-
-
-
-    @Override
-    public void update() {
-    }
 
 
 }

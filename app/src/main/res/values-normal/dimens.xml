@@ -31,6 +31,12 @@
     <dimen name="fragment_code_buttondone">20dp</dimen>
 
 
+    <!--fragment Pro  Paiment step two-->
+    <dimen name="fragment_paiement_edittext">13sp</dimen>
+    <dimen name="fragment_paiement_valider">15sp</dimen>
+
+
+
     <!--Profil Fragment Title -->
     <dimen name="profil_fragment_title">17dp</dimen>
     <dimen name="fragment_editext">15dp</dimen>
@@ -40,6 +46,12 @@
     <dimen name="Dashboard_solde">17dp</dimen>
     <dimen name="Dashboard_sharepoint_expense">17dp</dimen>
     <dimen name="Dashboard_sharepoint_expense_value">12.5dp</dimen>
+
+
+    <!--TPE  dialog-->
+    <dimen name="dialog_cancel_button">14sp</dimen>
+    <dimen name="dialog_validate_button">14sp</dimen>
+    <dimen name="dialog_title">16.5dp</dimen>
 
 
 </resources>

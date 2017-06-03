@@ -69,10 +69,11 @@
                 android:gravity="bottom"
                 android:layout_marginBottom="4dp"
                 >
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="#E8E8E8"
                     android:textSize="@dimen/Dashboard_sharepoint_expense"
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/generated_sharepoint"
@@ -182,8 +183,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
+                    android:textColor="#E8E8E8"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense_value"
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/stock_sharepoint"
                     android:layout_above="@+id/stockTV"
@@ -193,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="stock de \n sharepoint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense_value"
                     android:textColor="@color/white"
                     android:id="@+id/stockTV"
                     android:gravity="center_vertical|center_horizontal"
