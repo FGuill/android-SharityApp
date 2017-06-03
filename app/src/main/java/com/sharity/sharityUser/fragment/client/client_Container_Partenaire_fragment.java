@@ -150,7 +150,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
         gpSservice=new GPSservice(getActivity());
         //We instantiate the List in first, seen by user first.
-        client_PartenaireMap_fragment fragTwo = client_PartenaireMap_fragment.newInstance(list_shop, true);
+        client_PartenaireMap_fragment fragTwo = client_PartenaireMap_fragment.newInstance(true);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.content, fragTwo, "client_PartenaireMap_fragment");
@@ -406,7 +406,8 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                                 e1.printStackTrace();
                             }
                             list_shop.add(new LocationBusiness(queryLatitude, queryLongitude, business_name,categorie, distance, imageByte,false, false));
-                        }//Place current location marker
+                        }
+                        //Place current location marker
                         list_shop_filtered.addAll(list_shop);
                         //Create offset with last business
                         if (list_shop.size() > 1) {

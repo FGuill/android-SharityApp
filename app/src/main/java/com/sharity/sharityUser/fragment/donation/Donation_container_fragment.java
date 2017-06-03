@@ -229,8 +229,8 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
     }
 
     public void decrement(){
-        if (user_solde > 0){
-            if (sharepoints_user_donate>0) {
+        if (user_solde > 10){
+            if (sharepoints_user_donate>=10) {
                 sharepoints_user_donate = sharepoints_user_donate - 10;
 
                 if (source.equals("Client")){
@@ -245,7 +245,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
                 sharepoints_plus.setVisibility(View.VISIBLE);
             } else {
                 sharepoints_user_donate = 0;
-                sharepoints_moins.setVisibility(View.INVISIBLE);
+                sharepoints_moins.setVisibility(View.VISIBLE);
             }
         }else {
             Toast.makeText(getActivity(),"Vosu n'avez pas passez de Sharepoints pour efféctuer le don",Toast.LENGTH_LONG);
@@ -275,7 +275,7 @@ public class Donation_container_fragment extends Fragment implements View.OnClic
 
             if (sharepoints_user_donate >= user_solde) {
                 sharepoints_user_donate = user_solde;
-                sharepoints_plus.setVisibility(View.INVISIBLE);
+                sharepoints_plus.setVisibility(View.VISIBLE);
             }
             sharepoints_moins.setVisibility(View.VISIBLE);
             points.setText(String.valueOf(sharepoints_user_donate));

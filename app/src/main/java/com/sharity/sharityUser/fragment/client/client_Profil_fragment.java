@@ -126,7 +126,9 @@ public class client_Profil_fragment extends Fragment implements Updateable,Profi
                     do_donationTV.setText("Faire un don");
                     donation=true;
                     Intent intent=new Intent(getActivity(),DonationActivity.class);
-                     intent.putExtra("source","Client") ;
+                    Bundle bundle=new Bundle();
+                    bundle.putString("source","Client");
+                    intent.putExtra("bundle",bundle);
                      getActivity().startActivityForResult(intent, 1);
             }
         });

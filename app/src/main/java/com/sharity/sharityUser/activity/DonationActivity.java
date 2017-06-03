@@ -46,6 +46,7 @@ import static com.sharity.sharityUser.R.id.bottomBar;
 import static com.sharity.sharityUser.R.id.toolbar_title;
 import static com.sharity.sharityUser.activity.ProfilActivity.clientProfilActivity;
 import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
+import static com.sharity.sharityUser.fragment.donation.Donation_container_fragment.source;
 
 
 /**
@@ -60,7 +61,8 @@ public void onCreate( Bundle savedInstanceState) {
 
     if (savedInstanceState ==null){
         Intent intent = getIntent();
-        String source = intent.getStringExtra("source");
+        Bundle bundle= intent.getBundleExtra("bundle");
+        String source = bundle.getString("source");
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container,  Donation_container_fragment.newInstance(source), "Donation_container_fragment")

@@ -65,6 +65,7 @@ import java.util.Set;
 
 import okhttp3.internal.Util;
 
+import static android.R.attr.data;
 import static android.graphics.Typeface.BOLD;
 import static android.graphics.Typeface.ITALIC;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
@@ -134,10 +135,9 @@ public class client_PartenaireMap_fragment extends Fragment implements
     private FrameLayout frame_research;
 
 
-    public static client_PartenaireMap_fragment newInstance(ArrayList<LocationBusiness> data, boolean type) {
+    public static client_PartenaireMap_fragment newInstance(boolean type) {
         client_PartenaireMap_fragment myFragment = new client_PartenaireMap_fragment();
         Bundle args = new Bundle();
-        args.putSerializable("data", data);
         args.putBoolean("type", type);
         myFragment.setArguments(args);
         return myFragment;
@@ -181,7 +181,6 @@ public class client_PartenaireMap_fragment extends Fragment implements
         mapView.onResume();
 
         isShop = getArguments().getBoolean("type");
-        list_shop = (ArrayList<LocationBusiness>) getArguments().getSerializable("data");
         countUpdate=0;
 
         Initalize_RecyclerView();
