@@ -14,9 +14,9 @@
         android:bottomLeftRadius="25dp" />
     <stroke
         android:width="0.3dp"
-        android:color="@color/green" />
+        android:color="#e6e6e6" />
 
-    <solid android:color="@color/green" />
+    <solid android:color="#FFFFFF" />
 
 </shape>
 </item>

@@ -13,10 +13,10 @@
         android:bottomRightRadius="25dp"
         android:bottomLeftRadius="25dp" />
     <stroke
-        android:width="0.3dp"
+        android:width="0.7dp"
         android:color="@color/green" />
 
-    <solid android:color="@color/green" />
+    <solid android:color="#FFFFFF" />
 
 </shape>
 </item>

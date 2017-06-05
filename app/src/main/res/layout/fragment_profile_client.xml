@@ -163,43 +163,50 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
+                            android:id="@+id/recycle"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:weightSum="4"
-                            >
+                           >
+
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="2.4"
-                                android:orientation="vertical"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginBottom="5dp"
-                                android:weightSum="2">
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="4"
+                                >
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.4"
+                                    android:gravity="top|center"
+                                    android:orientation="vertical"
+                                    android:weightSum="4"
+                                    >
 
 
-                                <com.sharity.sharityUser.fonts.TextViewOpenSansSB
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1.34"
-                                    android:gravity="center"
-                                    android:paddingLeft="15dp"
-                                    android:paddingRight="15dp"
-                                    android:textAllCaps="true"
-                                    app:OpenSansSB="opensanssemibold.ttf"
-                                    android:layout_gravity="center_horizontal|center_vertical"
-                                    android:text="faire un don"
-                                    android:background="@drawable/border_backgroundgreen_button"
-                                    android:textColor="@color/white"
-                                    android:id="@+id/do_donationTV"
-                                    android:textSize="@dimen/donate_button" />
+                                        <com.sharity.sharityUser.fonts.TextViewOpenSansSB
+                                            android:layout_width="match_parent"
+                                            android:layout_height="0dp"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:elevation="3.5dp"
+                                            android:textAllCaps="true"
+                                            app:OpenSansSB="opensanssemibold.ttf"
+                                            android:layout_gravity="center_horizontal|center_vertical"
+                                            android:background="@drawable/border_backgroundgreen_button"
+                                            android:text="faire un don"
+                                            android:textColor="@color/white"
+                                            android:id="@+id/do_donationTV"
+                                            android:textSize="@dimen/donate_button" />
+
+                                </LinearLayout>
                             </LinearLayout>
-
-                        </LinearLayout>
+                        </FrameLayout>
 
                     </LinearLayout>
 

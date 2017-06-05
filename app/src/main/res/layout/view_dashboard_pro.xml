@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:animateLayoutChanges="true"
     android:layout_alignParentBottom="true"
-    android:background="@drawable/border_rose_pro"
+    android:background="@drawable/border_rose_pro2"
     android:weightSum="2.7"
     android:orientation="vertical">
 
@@ -73,7 +73,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#E8E8E8"
+                    android:textColor="#FFFFFF"
                     android:textSize="@dimen/Dashboard_sharepoint_expense"
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/generated_sharepoint"
@@ -102,13 +102,11 @@
 
                 <Button
                     android:layout_width="wrap_content"
-                    style="@style/AppTheme.RoundedCornerMaterialButton"
                     android:layout_height="wrap_content"
                     android:text="Allouer"
                     android:id="@+id/allouer"
-                    android:elevation="1dp"
-                    android:shadowDx="3"
-                    android:shadowDy="3"
+                    android:elevation="6dp"
+                    android:background="@drawable/border_button_dashboard"
                     android:shadowRadius="2"
                     android:textAllCaps="false"
                     android:textColor="@color/red"
@@ -183,8 +181,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#E8E8E8"
-                    android:textSize="@dimen/Dashboard_sharepoint_expense_value"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/Dashboard_sharepoint_expense"
                     android:gravity="bottom|center_horizontal|center_vertical"
                     android:id="@+id/stock_sharepoint"
                     android:layout_above="@+id/stockTV"
@@ -213,8 +211,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
-                    android:background="@drawable/border_button_search"
                     android:textAllCaps="false"
+                    android:layout_marginBottom="10dp"
                     android:visibility="invisible"
                     android:text="retirer"/>
 
@@ -251,7 +249,9 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/red"
             android:id="@+id/retirer"
-            android:background="@drawable/border_button_search"
+            android:elevation="6dp"
+            android:background="@drawable/border_button_dashboard"
+            android:shadowRadius="2"
             android:textAllCaps="false"
             android:text="retirer"/>
 
