@@ -180,23 +180,23 @@ public class client_PartenaireMap_fragment extends Fragment implements
 
         mapView.onCreate(null);
         mapView.onResume();
-
         isShop = getArguments().getBoolean("type");
         countUpdate=0;
-
         Initalize_RecyclerView();
-        StartLocation();
+        mapView.getMapAsync(this);
 
         if (mGoogleApiClient != null) {
             permissionRuntime = new PermissionRuntime(getActivity());
             if (ContextCompat.checkSelfPermission(getActivity(),
                     permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                mapView.getMapAsync(this);
-                Log.d("PermissionRuTime","MapSync");
+                StartLocation();
+                Log.d("PermissionRuTime","StartLocation");
             } else {
-                Log.d("PermissionRuTime","client_PartenaireMap_fragment");
-                permissionRuntime.Askpermission(permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION, permissionRuntime.Code_ACCESS_FINE_LOCATION);
+                if (!gpSservice.isGPSEnabled()|| !Utils.isConnected(getContext())){
+                    ShowNetworkView();
+                    Log.d("PermissionRuTime","No permission no network");
+                }
             }
         }
 
@@ -265,15 +265,11 @@ public class client_PartenaireMap_fragment extends Fragment implements
                         permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
                     mMap.setMyLocationEnabled(true);
-                } else {
-                    permissionRuntime.Askpermission(permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION, permissionRuntime.Code_ACCESS_FINE_LOCATION);
-                }
 
-                if (latitude!=0.0){
-                    Display_icon_Map();
+                    if (latitude!=0.0){
+                        Display_icon_Map();
+                    }
                 }
-                // Add a marker in Delhi and move the camera
-                // GetBusiness();
             } catch (NullPointerException e) {
 
             }
@@ -378,6 +374,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                                     ShowSPromotion();
                                 }
                             }else {
+                                ShowNetworkView();
                             }
                     break;
             }
@@ -636,6 +633,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
             frame_nonetwork.setOnClickListener(this);
             animation_nonetwork.loop(false);
             animation_nonetwork.cancelAnimation();
+            ((client_Container_Partenaire_fragment)getParentFragment()).get_Categorie();
         }
     }
 
@@ -648,6 +646,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                     if (gpSservice.isGPSEnabled() && gpSservice.isNetworkEnabled()){
                         if (mGoogleApiClient.isConnected()){
                             ((client_Container_Partenaire_fragment) getParentFragment()).startLocationUpdates();
+                            HideNetworkView();
                         }
                     }
                 }
@@ -658,6 +657,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                     if (gpSservice.isGPSEnabled() && gpSservice.isNetworkEnabled()){
                         if (mGoogleApiClient.isConnected()){
                             ((client_Container_Partenaire_fragment) getParentFragment()).startLocationUpdates();
+                             HideNetworkView();
                         }
                     }
                 }

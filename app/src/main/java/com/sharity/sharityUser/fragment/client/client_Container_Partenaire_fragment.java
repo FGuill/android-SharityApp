@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -125,8 +126,8 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     public static String categorie;
     protected static int countUpdate=0;
 
-    private int Request_Interval=2000;
-    private int Request_Fastest_Interval=1000;
+    private int Request_Interval=2500;
+    private int Request_Fastest_Interval=2000;
 
     protected static ProgressBar progressBar;
 
@@ -150,6 +151,9 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
         gpSservice=new GPSservice(getActivity());
         //We instantiate the List in first, seen by user first.
+
+        permissionRuntime = new PermissionRuntime(getActivity());
+
         client_PartenaireMap_fragment fragTwo = client_PartenaireMap_fragment.newInstance(true);
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -206,10 +210,6 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLocationRequest = LocationRequest.create();
-        mLocationRequest.setInterval(Request_Interval);
-        mLocationRequest.setFastestInterval(Request_Fastest_Interval);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         OpenGPSettings();
 
         if (getContext() != null) {
@@ -240,9 +240,14 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     // Trigger new location updates at interval
     public void startLocationUpdates() {
         if (getContext() != null) {
+            countUpdate=0;
             if (ContextCompat.checkSelfPermission(getActivity(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
+                mLocationRequest = LocationRequest.create();
+                mLocationRequest.setInterval(Request_Interval);
+                mLocationRequest.setFastestInterval(Request_Fastest_Interval);
+                mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
                 isLocationUpdate=true;
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, gpsLocationListener);
             }
@@ -300,7 +305,12 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                 }
             }
             }else {
-                RemoveLocationUpdate();
+                Request_Interval=600000; //10 min request after getting a initial position.
+                Request_Fastest_Interval=600000;
+                if (mGoogleApiClient!=null && mGoogleApiClient.isConnected()){
+                    RemoveLocationUpdate();
+                    Log.d("mGoogleApiClient", "Reconnect mew setting");
+                }
             }
         }
     };
@@ -420,6 +430,10 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                             byte[] pic = ((LocationBusiness) business).getPicture();
                             list_shop.add(new LocationBusiness(lat, lon, mbusiness,categorie, mdistance, pic,false, true));
                         }
+
+                        if (progressBar!=null){
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
                         dataCallBack.onSuccess();
                     }
                 }
@@ -496,6 +510,9 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
                         dataCallBack.onSuccess();
                         size_listshopNew=list_shop.size();
+                        if (progressBar!=null){
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
             });
@@ -600,13 +617,25 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
             try{
             new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run() {
+                public void run() {try {
+                    if (getActivity() instanceof ProfilActivity) {
                         if (mGoogleApiClient == null) {
                             Log.d("mGoogleApiClient", "Start connection");
                             buildGoogleApiClient();
-                            progressBar.setVisibility(View.INVISIBLE);
+                            if (ContextCompat.checkSelfPermission(getActivity(),
+                                    permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{permissionRuntime.MY_PERMISSIONS_ACCESS_FINE_LOCATION},
+                                        permissionRuntime.Code_ACCESS_FINE_LOCATION);
+                            }
+                            progressBar.setVisibility(View.VISIBLE);
                         }
 
+                    }
+                }catch (NullPointerException e){
+
+                }
                 }
             }, 5000);}
 

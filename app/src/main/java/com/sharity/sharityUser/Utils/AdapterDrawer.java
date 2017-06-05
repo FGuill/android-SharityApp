@@ -75,8 +75,11 @@ public class AdapterDrawer extends BaseAdapter {
             if (listViewItemType == -1) {
                 if (Status(context).equals("Business")) {
                     holder.items.setText(it.getItems());
+                    holder.items.setTextColor(context.getResources().getColor(R.color.rose));
+
                 }else if (Status(context).equals("User")){
                     holder.items.setText(it.getItems());
+                    holder.items.setTextColor(context.getResources().getColor(R.color.green));
                 }
             }
            else if (listViewItemType == 0) {
