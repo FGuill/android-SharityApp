@@ -318,6 +318,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                             gridViewCategorie=new AdapterGridViewCategorie(getActivity(), list_categorieReal, onItemGridCategorieClickListener);
                             Utils.expand(mViewcategorieColapse);
                             search_layout.setText("annuler");
+
                             if (getList_categorie().isEmpty()){
                                 ((client_Container_Partenaire_fragment)getParentFragment()).get_Categorie(new client_Container_Partenaire_fragment.DataCallBack() {
                                     @Override
@@ -325,6 +326,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                                         gridViewCategorie.notifyDataSetChanged();
                                     }
                                 });
+
                             }else {
                                 gridview.setAdapter(gridViewCategorie);
                             }

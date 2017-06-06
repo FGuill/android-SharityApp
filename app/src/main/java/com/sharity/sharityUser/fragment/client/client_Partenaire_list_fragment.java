@@ -304,13 +304,12 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
         });
 
 
-        if (((ProfilActivity)getActivity()).pager.getCurrentItem()==3){
+      /*  if (((ProfilActivity)getActivity()).pager.getCurrentItem()==3){
             ((client_Container_Partenaire_fragment) getParentFragment()).ChangeTitleActivity("SHOP");
-        }
+        }*/
 
         type.setText("PROMOTION");
         typeTV.setText("SHOP");
-
         type.setTextColor(getResources().getColor(R.color.green));
         isShop = true;
         on=false;
@@ -408,7 +407,6 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
                 if (object.getCategorie().equals(selectedCategorie) && !object.isoffset()) {
                     Log.d("onItemCategolickpassed", selectedCategorie);
                     list_shop.add(object);
-                    break;
                 }
             }
         }

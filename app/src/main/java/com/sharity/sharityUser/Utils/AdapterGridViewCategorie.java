@@ -108,7 +108,7 @@ public class AdapterGridViewCategorie extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                categorieClickListener.onItemCategorieClick(position, it.getNom());
+                categorieClickListener.onItemCategorieClick(position, it.getObjectid());
             }
         });
         return convertView;

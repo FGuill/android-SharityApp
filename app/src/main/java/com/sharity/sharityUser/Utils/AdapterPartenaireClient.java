@@ -143,15 +143,19 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
             if (viewHolder.prix!=null){
                 viewHolder.prix.setText(shop.getPrix());
             }
-            if (viewHolder.nom!=null){
+            if (viewHolder.nom!=null){ //nom du business
                 viewHolder.nom.setText(shop.get_businessName());
             }
-            if (viewHolder.description!=null){
-                viewHolder.description.setText(shop.getDescription());
+            if (viewHolder.description!=null){ //description du business
+                viewHolder.description.setText("");
             }
 
             if (viewHolder.reduction!=null){
-                viewHolder.reduction.setText(shop.getReduction());
+                viewHolder.reduction.setText(shop.getReduction()+"€");
+            }
+
+            if (viewHolder.item!=null){ //item ex Menu salade
+                viewHolder.item.setText(shop.getDescription());
             }
         }
     }
@@ -159,7 +163,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         SquareImageView image;
-        TextView description, prix,reduction,nom;
+        TextView description, prix,reduction,nom,item;
         TextView distance, businessname;
         CircleImageView profil;
         RelativeLayout background;
@@ -173,6 +177,7 @@ public class AdapterPartenaireClient extends RecyclerView.Adapter<AdapterPartena
             prix = (TextView) itemView.findViewById(R.id.prix);
             description = (TextView) itemView.findViewById(R.id.description);
             reduction = (TextView) itemView.findViewById(R.id.reduction);
+            item = (TextView) itemView.findViewById(R.id.item);
 
             distance = (TextView) itemView.findViewById(R.id.distance);
             businessname = (TextView) itemView.findViewById(R.id.business_name);
