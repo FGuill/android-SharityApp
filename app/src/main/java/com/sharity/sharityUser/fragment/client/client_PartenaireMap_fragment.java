@@ -309,7 +309,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
             switch (view.getId()) {
                 case R.id.search_layout:
                     //Show  "Categorie" expand collapse //
-                    if (!isShop) {
+
                         if (issearch) {
                             frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_categorie);
                             mViewcategorieColapse = vinflater.inflate(R.layout.layout_editingsequence, frameCategorie, false);
@@ -339,9 +339,7 @@ public class client_PartenaireMap_fragment extends Fragment implements
                             Utils.collapse(mViewcategorieColapse);
                             issearch = true;
                         }
-                    }else {
-                        Toast.makeText(getActivity(),"Recherche uniquement pour les promotions",Toast.LENGTH_LONG).show();
-                    }
+
                     break;
                 case R.id.list:
                     gpSservice.getState();
