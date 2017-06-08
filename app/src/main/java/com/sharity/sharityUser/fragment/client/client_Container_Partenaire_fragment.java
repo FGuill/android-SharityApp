@@ -48,6 +48,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -72,6 +73,7 @@ import com.sharity.sharityUser.fragment.MapCallback;
 import com.sharity.sharityUser.fragment.Updateable;
 import com.sharity.sharityUser.fragment.pro.Pro_Paiment_StepTwo_Classique_fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +84,6 @@ import static com.sharity.sharityUser.R.id.latitude;
 import static com.sharity.sharityUser.R.id.nom;
 import static com.sharity.sharityUser.R.id.swipeContainer;
 import static com.sharity.sharityUser.R.id.user;
-import static com.sharity.sharityUser.activity.ProfilActivity.mGoogleApiClient;
 import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
 
 
@@ -92,6 +93,7 @@ import static com.sharity.sharityUser.activity.ProfilActivity.permissionRuntime;
 public class client_Container_Partenaire_fragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, Updateable, MapCallback, ResultCallback<LocationSettingsResult> {
 
+    public static GoogleApiClient mGoogleApiClient;
     protected static GPSservice gpSservice;
     protected static ArrayList<LocationBusiness> list_shop = new ArrayList<>();
     protected static ArrayList<LocationBusiness> list_shop_filtered = new ArrayList<LocationBusiness>();
@@ -107,6 +109,10 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
     private String businessName = null;
     int sizelist=0;
     int number=0;
+    int count_images=0;
+    public static int mSelectedItem_categories=-1;
+
+
 
 
     protected static Location mLastLocation;
@@ -207,7 +213,10 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-            mGoogleApiClient.connect();
+            if (!mGoogleApiClient.isConnected()){
+                mGoogleApiClient.connect();
+
+            }
             get_Categorie();
         }catch (NullPointerException e){
 
@@ -246,7 +255,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
     // Trigger new location updates at interval
     public void startLocationUpdates() {
-        if (getContext() != null) {
+        if (getActivity() != null) {
             countUpdate=0;
             if (ContextCompat.checkSelfPermission(getActivity(),
                     android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -276,6 +285,8 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
    public LocationListener gpsLocationListener = new com.google.android.gms.location.LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
+            Log.d("locationlatitude", String.valueOf(location.getLatitude()));
+
             countUpdate++;
             mLastLocation = location;
             if (mCurrLocationMarker != null) {
@@ -359,7 +370,6 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, gpsLocationListener);
-                mGoogleApiClient.disconnect();
                 isLocationUpdate=false;
             }
         }
@@ -565,7 +575,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
                         for (final ParseObject object : commentList) {
                             final String objectId = object.getObjectId();
                             String name=object.getString("name");
-                               ParseFile image = (ParseFile) object.getParseFile("image");
+                            ParseFile image = (ParseFile) object.getParseFile("image");
                             try {
                                 imageByte = image.getData();
                             } catch (ParseException e1) {
@@ -605,7 +615,6 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
         } catch (NullPointerException f) {
         }
     }
-
     public static ArrayList<Category> getList_categorie() {
         return list_categorieReal;
     }
@@ -671,7 +680,7 @@ public class client_Container_Partenaire_fragment extends Fragment implements Go
 
                 }
                 }
-            }, 5000);}
+            }, 3200);}
 
             catch (NullPointerException e){
             }

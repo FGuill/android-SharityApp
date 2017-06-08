@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -56,7 +57,6 @@ import com.sharity.sharityUser.fragment.Updateable;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.sharity.sharityUser.activity.ProfilActivity.mGoogleApiClient;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.countUpdate;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.frameCategorie;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.getList_categorie;
@@ -64,10 +64,13 @@ import static com.sharity.sharityUser.fragment.client.client_Container_Partenair
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.gridview;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.isLocationUpdate;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.isShop;
+import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.latitude;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.list_categorieReal;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.list_shop;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.list_shop_filtered;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.longitude;
+import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.mGoogleApiClient;
+import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.mSelectedItem_categories;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.mViewcategorieColapse;
 import static com.sharity.sharityUser.fragment.client.client_Container_Partenaire_fragment.on;
 
@@ -100,7 +103,6 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
     private  RelativeLayout frame_expand;
     private RelativeLayout frame_progress_data;
     private LottieAnimationView animation_progress_data;
-
     private TextView typeTV;
     public static client_Partenaire_list_fragment newInstance() {
         client_Partenaire_list_fragment myFragment = new client_Partenaire_list_fragment();
@@ -149,7 +151,7 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
             @Override
             public void onClick(View view) {
                 gpSservice.getState();
-                if (gpSservice.isGPSEnabled() && gpSservice.isNetworkEnabled()){
+                if (latitude!=0.0 && Utils.isConnected(getContext())){
                       onCloseMap.onClose();
                 }else {
                     Toast.makeText(getActivity(),"Veuillez activer votre réseau, ainsi que le GPS",Toast.LENGTH_LONG).show();
@@ -163,7 +165,7 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
             @Override
             public void onClick(View view) {
                 gpSservice.getState();
-                if (gpSservice.isGPSEnabled() && gpSservice.isNetworkEnabled()){
+                if (latitude!=0.0 && Utils.isConnected(getContext())){
                     if (!isLocationUpdate()){
                         if (mGoogleApiClient.isConnected()) {
                             ((client_Container_Partenaire_fragment) getParentFragment()).startLocationUpdates();
@@ -229,6 +231,37 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
         }
     }
 
+    View.OnClickListener categorie =new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.close:
+                    search_layout.setText("recherche");
+                    if (mViewcategorieColapse!=null) {
+                        Utils.collapse(mViewcategorieColapse);
+                        issearch = true;
+                    }
+                    break;
+                case R.id.reinitialize:
+                    if (latitude!=0.0 && Utils.isConnected(getContext())){
+                        if (isShop){
+                            ShowShop();
+                        }else {
+                            ShowSPromotion();
+                        }
+                    }else {
+                        ShowNetworkView();
+                    }
+                    if (mViewcategorieColapse!=null) {
+                        mSelectedItem_categories=-1;
+                        Utils.collapse(mViewcategorieColapse);
+                        issearch = true;
+                    }
+                    break;
+            }
+        }
+    };
+
 
     boolean issearch= true;
     @Override
@@ -236,33 +269,44 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
         switch (view.getId()) {
             case R.id.search_layout:
                 //Show  "Categorie" expand collapse //
+                if (issearch) {
+                    frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_categorie);
+                    mViewcategorieColapse = vinflater.inflate(R.layout.layout_editingsequence, frameCategorie, false);
+                    frameCategorie.addView(mViewcategorieColapse);
+                    gridview = (GridView) mViewcategorieColapse.findViewById(R.id.customgrid);
+                    ImageView close_categories = (ImageView) mViewcategorieColapse.findViewById(R.id.close);
+                    TextView reinitialize_categories = (TextView) mViewcategorieColapse.findViewById(R.id.reinitialize);
+                    close_categories.setOnClickListener(categorie);
+                    reinitialize_categories.setOnClickListener(categorie);
+                    /** Using a Parse custom Adapter*/
+                    //  gridViewCategorie = new AdapterCategory(getActivity());
+                    //  gridViewCategorie.setTextKey("name");
+                    //  gridViewCategorie.setImageKey("image");
+                    // gridview.setAdapter(gridViewCategorie);
+                    // gridViewCategorie.loadObjects();
+                    // gridview.setOnItemClickListener(categorie2);
 
-                    if (issearch) {
-                        frameCategorie = (RelativeLayout) inflate.findViewById(R.id.frame_categorie);
-                        mViewcategorieColapse = vinflater.inflate(R.layout.layout_editingsequence, frameCategorie, false);
-                        frameCategorie.addView(mViewcategorieColapse);
-                        gridview = (GridView) mViewcategorieColapse.findViewById(R.id.customgrid);
-                        gridViewCategorie=new AdapterGridViewCategorie(getActivity(), list_categorieReal, onItemGridCategorieClickListener);
+                    gridViewCategorie=new AdapterGridViewCategorie(getActivity(), list_categorieReal, onItemGridCategorieClickListener);
+                    if (getList_categorie().isEmpty()){
+                        ((client_Container_Partenaire_fragment)getParentFragment()).get_Categorie(new client_Container_Partenaire_fragment.DataCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                gridViewCategorie.notifyDataSetChanged();
+                            }
+                        });
 
-                        if (getList_categorie().isEmpty()){
-                            ((client_Container_Partenaire_fragment)getParentFragment()).get_Categorie(new client_Container_Partenaire_fragment.DataCallBack() {
-                                @Override
-                                public void onSuccess() {
-                                    gridViewCategorie.notifyDataSetChanged();
-                                }
-                            });
-                        }else {
-                            gridview.setAdapter(gridViewCategorie);
-                        }
-                        Utils.expand(mViewcategorieColapse);
-                        search_layout.setText("annuler");
-                        issearch = false;
-                    } else {
-                        //  frameCategorie.removeView(mViewcategorieColapse);
-                        Utils.collapse(mViewcategorieColapse);
-                        search_layout.setText("recherche");
-                        issearch = true;
+                    }else {
+                        gridview.setAdapter(gridViewCategorie);
                     }
+                    Utils.expand(mViewcategorieColapse);
+                    search_layout.setText("annuler");
+                    issearch = false;
+                } else {
+                    search_layout.setText("recherche");
+                    //  frameCategorie.removeView(mViewcategorieColapse);
+                    Utils.collapse(mViewcategorieColapse);
+                    issearch = true;
+                }
                 break;
 
             case R.id.frame_nonetwork:
@@ -348,14 +392,14 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
         gpSservice = new GPSservice(getContext());
         gpSservice.getState();
 
-        if (!gpSservice.isGPSEnabled()|| !Utils.isConnected(getContext())){
-            ShowNetworkView();
-        }else {
+        if (latitude!=0.0 && Utils.isConnected(getContext())){
             if (isShop){
                 ShowShop();
             }else {
                 ShowSPromotion();
             }
+        }else {
+            ShowNetworkView();
         }
     }
 
@@ -427,14 +471,15 @@ public class client_Partenaire_list_fragment extends Fragment implements Updatea
     }
 
     @Override
-    public void onItemCategorieClick(int item, String categorie) {
+    public void onItemCategorieClick(int item, String categorie,View v) {
+        gridViewCategorie.notifyDataSetChanged();
         Log.d("onItemCategorielist",categorie);
         if (isLocationUpdate()){
             ((client_Container_Partenaire_fragment) getParentFragment()).RemoveLocationUpdate();
         }
 
         DisplayItemFromCategorie(categorie);
-        Utils.collapse(mViewcategorieColapse);
+      //  Utils.collapse(mViewcategorieColapse);
     }
 
 

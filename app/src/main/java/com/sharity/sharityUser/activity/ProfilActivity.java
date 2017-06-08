@@ -129,7 +129,6 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     public static LocationUser locationUser=null;
     public static PermissionRuntime permissionRuntime;
     private  CoordinatorLayout coordinatorLayout;
-    public static GoogleApiClient mGoogleApiClient;
 
     private static int user_sharepoints=0;
     private static int user_sharepoints_depense=0;
@@ -147,7 +146,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     int inital_height_LinearBar=0;
     String transaction;
     int countLiveQuery=0;
-
+    boolean DialogShown=false;
 
 
     public interface OnNotificationUpdateHistoric {
@@ -183,7 +182,6 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             parseUser = ParseUser.getCurrentUser();
             manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             permissionRuntime = new PermissionRuntime(ProfilActivity.this);
-
 
             clientProfilActivity = this;
             db = new DatabaseHandler(this);
@@ -326,16 +324,20 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
                                     if (!ProfilActivity.this.isFinishing()) {
                                         ProfilActivity.this.runOnUiThread(new Runnable() {
                                             public void run() {
-                                                Utils.showDialog3(ProfilActivity.this, text, "Paiement", true, new Utils.Click() {
-                                                    @Override
-                                                    public void Ok() {
-                                                    }
+                                                if (!DialogShown) {
+                                                    DialogShown=true;
+                                                    Utils.showDialog3(ProfilActivity.this, text, "Paiement", true, new Utils.Click() {
+                                                        @Override
+                                                        public void Ok() {
+                                                            DialogShown=false;
+                                                        }
 
-                                                    @Override
-                                                    public void Cancel() {
-
-                                                    }
-                                                });
+                                                        @Override
+                                                        public void Cancel() {
+                                                            DialogShown=false;
+                                                        }
+                                                    });
+                                                }
                                             }
                                         });
                                     }
@@ -701,6 +703,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
 
     @Override
     protected void onDestroy() {
+        DialogShown=false;
         super.onDestroy();
         if (pager != null) {
             pager.clearOnPageChangeListeners();

@@ -1,19 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/background"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/overlay"
+        android:background="@drawable/gradient_categories" >
+    </FrameLayout>
+
+        <TextView
+            android:id="@+id/os_texts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="categorie"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textSize="13dp"
+            />
+    </FrameLayout>
+</RelativeLayout>
+
+<!--<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-    <com.sharity.sharityUser.Utils.SquareImageView
-        android:id="@+id/os_images"
+    <com.parse.ParseImageView
+        android:id="@android:id/icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
 
     <TextView
-        android:layout_below="@+id/os_images"
+        android:layout_below="@android:id/icon"
         android:id="@+id/os_texts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,4 +64,4 @@
         android:textSize="18dp"
         android:textStyle="bold"/>
 
-</RelativeLayout>
+</RelativeLayout>-->
