@@ -52,5 +52,9 @@
     <string name="dons_send">Don validé</string>
     <string name="dons_refused">Don refusé</string>
 
+    <string name="paiement_validate">paiement validé</string>
+    <string name="paiement_refuseclient">paiement refusé</string>
+
+
     <string name="allocate">Vous devez d\'abord atteindre 150€ avant de tirer. \n Si vous ne l\'atteigner pas l\'argent sera viré automatiquement tous les 28 du mois</string>
 </resources>

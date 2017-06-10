@@ -305,6 +305,25 @@ public class Utils {
 
     }
 
+    public static Dialog showDialogLoading(Context activity) {
+
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_loading);
+
+        RelativeLayout dialogButton = (RelativeLayout) dialog.findViewById(R.id.background);
+
+
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
     public interface ProcessEmail {
         void SetEmail(String email);
 

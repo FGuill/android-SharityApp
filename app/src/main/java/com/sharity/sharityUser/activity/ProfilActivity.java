@@ -1,6 +1,7 @@
 package com.sharity.sharityUser.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.parse.FindCallback;
+import com.parse.LiveQueryException;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseGeoPoint;
@@ -97,6 +99,7 @@ import static com.sharity.sharityUser.R.id.longitude;
 import static com.sharity.sharityUser.R.id.swipeContainer;
 import static com.sharity.sharityUser.R.id.tab_option;
 import static com.sharity.sharityUser.R.id.user;
+import static com.sharity.sharityUser.Utils.Utils.showDialogLoading;
 import static com.sharity.sharityUser.activity.LoginActivity.callbackManager;
 import static com.sharity.sharityUser.activity.ProfilActivity.TOTAL_PAGES;
 import static com.sharity.sharityUser.activity.ProfilProActivity.db;
@@ -147,6 +150,9 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
     String transaction;
     int countLiveQuery=0;
     boolean DialogShown=false;
+    boolean DialogLoadingShown=false;
+    Dialog ShowLoading;
+
 
 
     public interface OnNotificationUpdateHistoric {
@@ -288,65 +294,96 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             SubscriptionHandling<Transaction> subscriptionHandling;
             final ParseQuery<Transaction> parseQuery = ParseQuery.getQuery(Transaction.class);
             subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
-            subscriptionHandling.handleEvent(SubscriptionHandling.Event.UPDATE, new
-                    SubscriptionHandling.HandleEventCallback<Transaction>() {
+
+            subscriptionHandling.handleEvents(new SubscriptionHandling.HandleEventsCallback<Transaction>() {
                         @Override
-                        public void onEvent(ParseQuery<Transaction> query, Transaction object) {
-                            if (object.getBoolean("approved") == true) {
-                                transaction= object.getString("objectId");
-                                ParseObject sale = ParseObject.create("_User");
-                            try {
-                                sale = object.getParseObject("customer").fetchIfNeeded();
+                        public void onEvents(ParseQuery<Transaction> query,SubscriptionHandling.Event event, Transaction object) {
+                            switch (event) {
+                                case CREATE:
+                                    Log.d("client-paiement", "new create");
+                                    ParseObject user = ParseObject.create("_User");
+                                    try {
+                                        user = object.getParseObject("customer").fetchIfNeeded();
+                                    } catch (ParseException e1) {
+                                        e1.printStackTrace();
+                                    }
 
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
+                                    String customerId=user.getObjectId();
+                                    if (customerId.equalsIgnoreCase(parseUser.getObjectId())) {
+                                        Log.d("client-paiement", " Client need to do Paiement");
+                                        if (!DialogLoadingShown) {
+                                            DialogLoadingShown = true;
+                                            ShowLoading= Utils.showDialogLoading(ProfilActivity.this);
+                                            ShowLoading.show();
+                                        }
+                                    }
+                            break;
 
-                            String userid=sale.getObjectId();
-                                if (userid.equalsIgnoreCase(parseUser.getObjectId())) {
-                                    countLiveQuery++;
-                                    boolean isApproved = object.getBoolean("approved");
-                                    String BusinessNAme = object.getString("recipient_name");
-                                    int amount = object.getInt("amount");
+                                case UPDATE:
+                                    if (object.getBoolean("approved") == true) {
+                                        transaction= object.getString("objectId");
+                                        ParseObject sale = ParseObject.create("_User");
+                                        try {
+                                            sale = object.getParseObject("customer").fetchIfNeeded();
+
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
+
+                                        String userid=sale.getObjectId();
+                                        if (userid.equalsIgnoreCase(parseUser.getObjectId())) {
+                                            countLiveQuery++;
+                                            boolean isApproved = object.getBoolean("approved");
+                                            String BusinessNAme = object.getString("recipient_name");
+                                            int amount = object.getInt("amount");
 
                                  /*   Intent intent = new Intent("custom-event-name");
                                     intent.putExtra("approved", isApproved);
                                     intent.putExtra("sharepoints", "");
                                     intent.putExtra("business", "");
                                     LocalBroadcastManager.getInstance(ProfilActivity.this).sendBroadcast(intent);*/
-                                        final String text;
-                                    if (isApproved) {
-                                        text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à bien été validé";
-                                    } else {
-                                        text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à été refusé";
+                                            final String text;
+                                            if (isApproved) {
+                                                text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à bien été validé";
+                                            } else {
+                                                text = "Votre paiment à " + BusinessNAme + " d\'un montant de " + amount + " à été refusé";
 
-                                    }
-                                    if (!ProfilActivity.this.isFinishing()) {
-                                        ProfilActivity.this.runOnUiThread(new Runnable() {
-                                            public void run() {
-                                                if (!DialogShown) {
-                                                    DialogShown=true;
-                                                    Utils.showDialog3(ProfilActivity.this, text, "Paiement", true, new Utils.Click() {
-                                                        @Override
-                                                        public void Ok() {
-                                                            DialogShown=false;
-                                                        }
-
-                                                        @Override
-                                                        public void Cancel() {
-                                                            DialogShown=false;
-                                                        }
-                                                    });
-                                                }
                                             }
-                                        });
-                                    }
-                                    Log.d("AEOEO", object.getString("transactionId"));
-                                }
+                                            if (!ProfilActivity.this.isFinishing()) {
+                                                ProfilActivity.this.runOnUiThread(new Runnable() {
+                                                    public void run() {
+                                                        if (!DialogShown) {
+                                                            DialogShown=true;
 
-                            }
+                                                            if (DialogLoadingShown){
+                                                                DialogLoadingShown=false;
+                                                                ShowLoading.dismiss();
+                                                            }
+                                                            Utils.showDialog3(ProfilActivity.this, text, "Paiement", true, new Utils.Click() {
+                                                                @Override
+                                                                public void Ok() {
+                                                                    DialogShown=false;
+                                                                }
+
+                                                                @Override
+                                                                public void Cancel() {
+                                                                    DialogShown=false;
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            Log.d("AEOEO", object.getString("transactionId"));
+                                        }
+
+                                    }
+                                    break;
+                        }
                         }
                     });
+
+
         }
 
     }
@@ -703,6 +740,7 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
 
     @Override
     protected void onDestroy() {
+        DialogLoadingShown=false;
         DialogShown=false;
         super.onDestroy();
         if (pager != null) {
@@ -766,6 +804,26 @@ public class ProfilActivity extends AppCompatActivity implements OnTabSelectList
             message=getResources().getString(R.string.dons_send);
         }else {
             message=getResources().getString(R.string.dons_refused);
+        }
+        Utils.showDialogPaiement(ProfilActivity.this,message,success, true, new Utils.Click() {
+            @Override
+            public void Ok() {
+
+            }
+
+            @Override
+            public void Cancel() {
+
+            }
+        });
+    }
+
+    private void PopupStatePaiement(boolean success){
+        String message;
+        if (success){
+            message=getResources().getString(R.string.paiement_validate);
+        }else {
+            message=getResources().getString(R.string.paiement_refuseclient);
         }
         Utils.showDialogPaiement(ProfilActivity.this,message,success, true, new Utils.Click() {
             @Override

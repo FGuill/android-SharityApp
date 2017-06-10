@@ -96,8 +96,8 @@ dependencies {
     }
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.parse:parsetwitterutils-android:1.10.+'
-    compile 'com.parse:parseui-login-android:0.0.2'
-    compile 'com.parse:parseui-widget-android:0.0.2'
+   // compile 'com.parse:parseui-login-android:0.0.2'
+   // compile 'com.parse:parseui-widget-android:0.0.2'
 
     compile 'com.roughike:bottom-bar:2.3.1'
 }

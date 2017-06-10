@@ -43,7 +43,6 @@ import com.sharity.sharityUser.BO.LocationBusiness;
 import com.sharity.sharityUser.R;
 import com.sharity.sharityUser.Utils.AdapterGridViewCategorie;
 import com.sharity.sharityUser.Utils.AdapterPartenaireMapClient;
-import com.sharity.sharityUser.Utils.AdapterCategory;
 import com.sharity.sharityUser.Utils.GPSservice;
 import com.sharity.sharityUser.Utils.PermissionRuntime;
 import com.sharity.sharityUser.Utils.Utils;
